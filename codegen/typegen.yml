@@ -1,0 +1,64 @@
+overwrite: true
+schema:
+  - schema/schema.graphql
+documents:
+  - src/**/*.graphql
+  - src/**/*.gql
+generates:
+  src/graphql/type.interface.ts:
+    plugins:
+      - typescript
+    config:
+      constEnums: false
+      enumsAsTypes: false
+      numericEnums: false
+      futureProofEnums: false
+      enumsAsConst: true
+  src/:
+    preset: near-operation-file
+    presetConfig:
+      extension: .generated.tsx
+      baseTypesPath: graphql/type.interface.ts
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      flattenGeneratedTypes: false
+      preResolveTypes: false
+      skipTypeNameForRoot: false
+      dedupeOperationSuffix: false
+      omitOperationSuffix: false
+      exportFragmentSpreadSubTypes: false
+      withComponent: false
+      withHOC: false
+      withMutationFn: false
+      withRefetchFn: false
+      withHooks: true
+      addDocBlocks: false
+      reactApolloVersion: 3
+      operationResultSuffix: 'Response'
+      gqlImport: '@apollo/client#gql'
+      scalars:
+        Upload: any
+      declarationKind:
+        type: 'interface'
+        input: 'interface'
+config:
+  enumPrefix: true
+  noExport: false
+  immutableTypes: false
+  onlyOperationTypes: false
+  useTypeImports: true
+  wrapFieldDefinitions: false
+  skipTypename: false
+  nonOptionalTypename: false
+  fieldWrapperValue: T
+  maybeValue: T | null | undefined
+  namingConvention:
+    typeNames: pascal-case#pascalCase
+    enumValues: upper-case#upperCase
+    transformUnderscore: true
+
+hooks:
+  afterOneFileWrite:
+    - prettier --write

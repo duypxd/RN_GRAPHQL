@@ -1,0 +1,4189 @@
+input AggrementTypeInput {
+  AggrementTypeID: ID!
+}
+
+type ApproversPaginatedResponse {
+  items: [Person!]!
+  pagination: PaginationResponse
+}
+
+input AssignDelegatePersonToSORInput {
+  DelegatePersonID: ID!
+  RecordDate: Date!
+  ScheduleOfRateID: ID!
+}
+
+type Audit {
+  ActorID: ID
+  AuditType: String!
+  Email: String
+  ID: ID!
+  IPAddress: String
+  Message: String
+  PersonID: ID
+  Platform: String
+  ReferenceID: ID
+  UTCTime: DateTime!
+  person: Person
+}
+
+type BatchProcess {
+  CreatedDate: Date!
+  ErrorCount: Float
+  FileUrl: String
+  ID: ID!
+  ProcessType: String!
+  Status: String!
+  SuccessCount: Float
+  TotalCount: Float
+}
+
+input CancelDocketWeighBridgeDepartureInput {
+  DocketRateItemGroupID: ID
+  DocketRateItemID: ID
+  ForemanID: ID
+  MaterialID: ID
+  NetWeight: Float
+  ProceedToDelivery: Boolean!
+  TotalMaterialWeight: Float
+  WasteDestinationID: ID
+  WeighingSystem: String!
+  tailgateInspectionInputs: [DocketWeighBridgeTailgateInspectionInput!]!
+}
+
+input CancelWeighBridgeDocketInput {
+  CancelReason: String!
+  DocketDetailID: ID!
+  DocketID: ID
+  ProjectID: ID!
+  departureInfo: CancelDocketWeighBridgeDepartureInput
+  location: Location
+}
+
+input CloneWeighBridgeDocketInput {
+  SourceDocketID: ID!
+  StartTime: Time!
+  location: Location
+}
+
+type Company {
+  ID: ID!
+  IsActive: Boolean
+  Name: String!
+}
+
+type CostCodeSummary {
+  CostCode: String!
+  CostCodeApproval: String!
+  TotalAmount: Float!
+}
+
+input CostCodeSummaryInput {
+  CostCode: String!
+  ProjectCostCenterID: ID!
+  TotalAmount: Float!
+}
+
+type Country {
+  CountryName: String!
+  CountryPhoneCode: String
+  ID: ID!
+  IsActive: Boolean
+}
+
+input CrewMemberInput {
+  CrewMemberPersonID: ID!
+  DocketDetailID: ID
+  EndTime: Time!
+  StartTime: Time!
+  docketBreakInputs: [DocketBreakInput!]!
+}
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+input DateFilter {
+  FromDate: Date!
+  ToDate: Date!
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+type Division {
+  DivisionName: String!
+  ID: ID!
+}
+
+type Docket {
+  CreatedBy: ID
+  CreatedDate: DateTime
+  CumulativeQuantity: Float
+  DeliveryTime: Time
+  DocketBillableHours: Float
+  DocketDate: Date!
+  DocketNumber: String
+  DocketStatusID: ID!
+  DocketTotal: Float
+  DocketTotalOnsite: Float
+  ID: ID!
+  IsCrewDocket: Boolean
+  IsLeadingHand: Boolean
+  IsPaperBased: Boolean
+  IsWeighBridge: Boolean
+  LotNumber: String
+  OperatorName: String
+  PersonID: ID
+  RequisitionNumber: String
+  SubbieStatusID: ID
+  SubmittedDate: DateTime
+  SupplierID: ID
+  TimeBatched: Time
+  createdBy: Person
+  docketBreaks: [DocketBreak!]
+  docketCostingApprovals: [DocketCostingApproval!]
+  docketDetail: DocketDetail
+  docketDetails: [DocketDetail!]
+  docketInvoiceDetail: DocketInvoiceDetail
+  docketPhotos: [DocketPhoto!]
+  docketPlantAndPersonalManualEntries: [DocketPlantAndPersonalManualEntry!]
+  docketRemarks: [DocketRemark!]
+  docketStatus: DocketStatus
+  docketStatusHistories: [DocketStatusHistory!]
+  modifiedBy: Person
+  person: Person
+  subbieStatus: DocketStatus
+  supplier: Supplier
+}
+
+type DocketApprovalCostCode {
+  CostCodeAmount: Float!
+  CostCodeHours: Float
+  CostCodePercent: Float!
+  CostCodeQuantity: Float
+  CreatedDate: DateTime
+  DocketCostingApprovalID: ID!
+  ID: ID!
+  ProjectCostCentreID: ID!
+  createdBy: Person
+  docketCostingApproval: DocketCostingApproval
+  modifiedBy: Person
+  projectCostCentre: ProjectCostCentre
+}
+
+input DocketApprovalCostCodeInput {
+  CostCodeAmount: Float!
+  CostCodeHours: Float
+  CostCodePercent: Float!
+  CostCodeQuantity: Float
+  ID: ID
+  ProjectCostCentreID: ID!
+}
+
+type DocketApproverHierarchy {
+  CreatedDate: DateTime
+  ID: ID!
+  InactivedDate: DateTime
+  IsActive: Boolean
+  PersonID: ID!
+  ProjectCostCentreID: ID
+  ProjectID: ID!
+  RoleID: ID!
+  person: Person
+  project: Project
+  projectCostCentre: ProjectCostCentre
+  role: Role
+}
+
+input DocketApproverHierarchyInput {
+  ID: ID
+  IsActive: Boolean
+  PersonID: ID!
+  ProjectCostCentreID: ID
+  RoleID: ID!
+}
+
+type DocketApproverHierarchyPaginatedResponse {
+  items: [DocketApproverHierarchy!]!
+  pagination: PaginationResponse
+}
+
+type DocketAttachment {
+  BillableHours: Float
+  CreatedDate: DateTime
+  DocketDetailID: ID!
+  DocketID: ID!
+  DocketRateItemID: ID!
+  EndTime: Time
+  ID: ID!
+  Quantity: Float
+  StartTime: Time
+  createdBy: Person
+  docket: Docket
+  docketAttachmentRemarks: [DocketAttachmentRemark!]
+  docketDetail: DocketDetail
+  docketRateItem: DocketRateItem
+  modifiedBy: Person
+}
+
+input DocketAttachmentInput {
+  DocketRateItemID: ID
+  EndTime: Time
+  ID: ID
+  Quantity: Float
+  StartTime: Time
+  docketAttachmentRemarkInputs: [DocketAttachmentRemarkInput!]
+}
+
+input DocketAttachmentItemInput {
+  ID: ID!
+  docketAttachmentRemarkInput: DocketAttachmentRemarkInput
+}
+
+type DocketAttachmentRemark {
+  CreatedDate: DateTime
+  DocketAttachmentID: ID!
+  ID: ID!
+  Remark: String!
+  RemarkBy: ID!
+  RoleID: ID!
+  createdBy: Person
+  docketAttachment: DocketAttachment
+  modifiedBy: Person
+  remarkBy: Person
+  role: Role
+}
+
+input DocketAttachmentRemarkInput {
+  ID: ID
+  Remark: String!
+}
+
+type DocketBreak {
+  BreakType: String!
+  CreatedDate: DateTime
+  DocketDetailID: ID
+  DocketID: ID!
+  Duration: Int
+  ID: ID!
+  IncludeInBillableTime: Boolean
+  RoundDownRestDuration: Int
+  StartTime: Time
+  createdBy: Person
+  docket: Docket
+  docketDetail: DocketDetail
+  modifiedBy: Person
+}
+
+input DocketBreakInput {
+  BreakType: String!
+  Duration: Int!
+  ID: ID
+  StartTime: Time
+}
+
+type DocketCostingApproval {
+  ApprovalAmount: Float!
+  ApprovalHours: Float
+  ApprovalPercent: Float!
+  ApprovalQuantity: Float
+  ApprovalStatusID: ID
+  CreatedDate: DateTime
+  DocketID: ID!
+  EngineerID: ID
+  EngineerStatusID: ID
+  EngineerStatusReason: String
+  ForemanID: ID
+  ForemanStatusID: ID
+  ForemanStatusReason: String
+  ID: ID!
+  LeadingHandID: ID
+  LeadingHandStatusID: ID
+  LeadingHandStatusReason: String
+  PAManagerID: ID
+  PAManagerStatusID: ID
+  PAManagerStatusReason: String
+  ProjectAdminID: ID
+  ProjectAdminStatusID: ID
+  ProjectAdminStatusReason: String
+  approvalStatus: DocketStatus
+  createdBy: Person
+  docket: Docket
+  docketApprovalCostCodes: [DocketApprovalCostCode!]!
+  engineer: Person
+  engineerStatus: DocketStatus
+  foreman: Person
+  foremanStatus: DocketStatus
+  leadingHand: Person
+  leadingHandStatus: DocketStatus
+  modifiedBy: Person
+  paManager: Person
+  paManagerStatus: DocketStatus
+  projectAdmin: Person
+  projectAdminStatus: DocketStatus
+}
+
+input DocketCostingApprovalInput {
+  ApprovalAmount: Float!
+  ApprovalHours: Float
+  ApprovalPercent: Float!
+  ApprovalQuantity: Float
+  EngineerID: ID
+  EngineerStatusID: ID
+  EngineerStatusReason: String
+  ForemanID: ID
+  ForemanStatusID: ID
+  ForemanStatusReason: String
+  ID: ID
+  LeadingHandID: ID
+  LeadingHandStatusID: ID
+  LeadingHandStatusReason: String
+  docketApprovalCostCodeInputs: [DocketApprovalCostCodeInput!]!
+}
+
+input DocketDateFilter {
+  FromDate: Date
+  ToDate: Date
+}
+
+type DocketDetail {
+  BillableHours: Float
+  BreakRuleViolationText: String
+  Comments: String
+  CreatedDate: DateTime
+  CrewMemberPersonID: ID
+  DocketID: ID!
+  DocketLineTotal: Float
+  DocketRateItemGroupID: ID
+  DocketRateItemID: ID
+  DocketTotalOnSiteHours: Float
+  EndTime: Time
+  ID: ID!
+  IsBreakRuleViolated: Boolean
+  IsShowBreakWarning: Boolean
+  MinimumBillableHours: Float
+  ProjectID: ID!
+  ProjectLocationID: ID
+  Quantity: Float!
+  StartTime: Time
+  createdBy: Person
+  crewMemberPerson: Person
+  docket: Docket
+  docketAttachments: [DocketAttachment!]
+  docketBreaks: [DocketBreak!]
+  docketRateItem: DocketRateItem
+  docketRateItemGroup: DocketRateItemGroup
+  docketWeighBridgeDetail: DocketWeighBridgeDetail
+  modifiedBy: Person
+  personalSafetyChecklist: PersonalSafetyChecklist
+  plantSafetyChecklist: PlantSafetyChecklist
+  project: Project
+  projectLocation: ProjectLocation
+}
+
+input DocketDetailInput {
+  Comments: String
+  DocketRateItemGroupID: ID
+  DocketRateItemID: ID
+  EndTime: Time
+  ID: ID
+  ProjectID: ID!
+  ProjectLocationID: ID!
+  Quantity: Float!
+  StartTime: Time
+}
+
+type DocketDetailItemSummary {
+  DocketDetailID: ID!
+  DocketItemSummaries: [DocketItemSummary!]!
+}
+
+input DocketFilterObject {
+  CreatedByIds: [ID!]
+  DocketDate: DocketDateFilter
+  DocketNumber: String
+  EngineerIDs: [Float!]
+  ForemanIDs: [Float!]
+  InvoiceNo: String
+  PrimaryItems: [PrimaryDocketItemFilter!]
+  Status: [String!]
+  SubmittedDate: DocketDateFilter
+  SupplierIDs: [ID!]
+  TotalDocketValue: TotalDocketValueFilter
+  Warnings: [Int!]
+}
+
+input DocketInput {
+  DocketStatusInput: String!
+  ForemanID: ID
+  ID: ID!
+  LeadingHandID: ID
+  PlantImage: String
+  crewMemberInputs: [CrewMemberInput!]!
+  docketAttachmentInputs: [DocketAttachmentInput!]!
+  docketBreakInputs: [DocketBreakInput!]!
+  docketDetailInput: DocketDetailInput!
+  docketPhotoInputs: [DocketPhotoInput!]!
+  docketRemarkInputs: [DocketRemarkInput!]!
+  personalSafetyChecklistItemInputs: [PersonalSafetyChecklistItemInput!]
+  plantSafetyChecklistItemInputs: [PlantSafetyChecklistItemInput!]
+}
+
+type DocketInvoice {
+  ActualInvoiceTotal: Float
+  CreatedBy: ID!
+  CreatedDate: DateTime
+  EnteredInvoiceTotal: Float
+  ID: ID!
+  InvoiceNumber: String!
+  ModifiedBy: ID!
+  SupplierPersonID: ID!
+  createdBy: Person
+  docketInvoiceDetails: [DocketInvoiceDetail!]!
+  modifiedBy: Person
+  supplierPerson: Person
+}
+
+type DocketInvoiceDetail {
+  DocketID: ID!
+  DocketInvoiceID: ID!
+  ID: ID!
+  docket: Docket
+  docketInvoice: DocketInvoice
+}
+
+input DocketItemInput {
+  DocketID: ID!
+  docketAttachmentItemInputs: [DocketAttachmentItemInput!]!
+  docketRemarkInput: DocketRemarkInput!
+}
+
+type DocketItemSummary {
+  AttachmentItem: Boolean!
+  Cost: Float!
+  Item: String!
+  Quantity: Float!
+  Rate: String!
+}
+
+input DocketMultiItemDetailInput {
+  Comments: String!
+  DocketRateItemGroupID: ID
+  DocketRateItemID: ID
+  EndTime: Time!
+  ID: ID
+  PersonID: ID!
+  PlantImage: String
+  StartTime: Time!
+  docketAttachmentInputs: [DocketAttachmentInput!]!
+  docketBreakInputs: [DocketBreakInput!]!
+  personalSafetyChecklistItemInputs: [PersonalSafetyChecklistItemInput!]!
+  plantSafetyChecklistItemInputs: [PlantSafetyChecklistItemInput!]
+}
+
+input DocketMultiItemInput {
+  DocketStatusInput: String!
+  ForemanID: ID
+  ID: ID!
+  IsDocketTypeChange: Boolean
+  LeadingHandID: ID
+  ProjectID: ID!
+  ProjectLocationID: ID!
+  docketPhotoInputs: [DocketPhotoInput!]!
+  docketRemarkInputs: [DocketRemarkInput!]!
+  multiDetailInputs: [DocketMultiItemDetailInput!]!
+}
+
+type DocketPaginatedResponse {
+  items: [Docket!]!
+  pagination: PaginationResponse
+}
+
+input DocketPaperBasedInput {
+  DocketDate: Date!
+  DocketNumber: String!
+  DocketStatusInput: String
+  EngineerID: ID
+  ForemanID: ID!
+  ID: ID
+  LeadingHandID: ID
+  MaterialQuantity: Float
+  OperatorName: String
+  PlantImage: String
+  SupplierID: ID!
+  crewMemberInputs: [CrewMemberInput!]!
+  docketApprovalCostCodeInputs: [DocketApprovalCostCodeInput!]
+  docketAttachmentInputs: [DocketAttachmentInput!]!
+  docketBreakInputs: [DocketBreakInput!]!
+  docketDetailInput: DocketDetailInput!
+  docketPhotoInputs: [DocketPhotoInput!]!
+  docketPlantAndPersonalManualEntriesInput: [DocketPlantAndPersonalManualEntryInput!]!
+  docketRemarkInputs: [DocketRemarkInput!]!
+  personalSafetyChecklistItemInputs: [PersonalSafetyChecklistItemInput!]
+  plantSafetyChecklistItemInputs: [PlantSafetyChecklistItemInput!]
+}
+
+type DocketPhoto {
+  CreatedDate: DateTime
+  DocketID: ID!
+  ID: ID!
+  PhotoPath: String!
+  Remark: String
+  createdBy: Person
+  docket: Docket
+  modifiedBy: Person
+}
+
+input DocketPhotoAndRemarkInput {
+  ID: ID!
+  docketPhotoInputs: [DocketPhotoInput!]!
+  docketRemarkInputs: [DocketRemarkInput!]!
+}
+
+input DocketPhotoInput {
+  ID: ID
+  PhotoPath: String!
+  Remark: String
+}
+
+type DocketPlantAndPersonalManualEntry {
+  Answer: String!
+  ChecklistType: String!
+  CreatedDate: DateTime
+  DocketID: ID!
+  ID: ID!
+  PhotoPath: String!
+  docket: Docket!
+}
+
+input DocketPlantAndPersonalManualEntryInput {
+  Answer: String!
+  ChecklistType: String!
+  PhotoPath: String!
+}
+
+input DocketPreStartDetailInput {
+  DocketRateItemGroupID: ID
+  DocketRateItemID: ID
+  ForemanID: ID
+  LeadingHandID: ID
+  ProjectID: ID!
+  StartTime: Time!
+}
+
+type DocketRateItem {
+  CreateDocket: Boolean!
+  CreatedDate: DateTime
+  DocketRateItemTypeID: ID!
+  DocketRateUnitOfMeasurementID: ID!
+  ID: ID!
+  ItemCode: String!
+  ItemDescription: String!
+  ModifiedDate: DateTime
+  ProjectID: ID!
+  ProjectMaterialID: ID
+  Rate: Float!
+  SupplierAgreementID: ID
+  SupplierID: ID!
+  WasteDestinationID: ID
+  WasteSourceID: ID
+  createdBy: Person
+  docketRateItemType: DocketRateItemType
+  docketRateUnitOfMeasurement: DocketRateUnitOfMeasurement
+  modifiedBy: Person
+  project: Project
+  projectMaterial: ProjectMaterial
+  supplier: Supplier
+  supplierContractSetUp: SupplierContractSetUp
+  wasteDestination: ProjectLocation
+  wasteSource: ProjectLocation
+}
+
+input DocketRateItemFilterObject {
+  CreateDockets: [Int!]
+  DocketRateItemTypeIDs: [ID!]
+  DocketRateUnitOfMeasurementIDs: [ID!]
+  ItemCodes: [String!]
+  ItemDescription: String
+  Rate: Float
+  SupplierAgreementIDs: [ID!]
+  SupplierIDs: [ID!]
+}
+
+type DocketRateItemGroup {
+  ContractNumber: String
+  CreateDocket: Boolean!
+  CreatedDate: DateTime
+  Description: String!
+  DocketRateItemTypeID: ID!
+  ID: ID!
+  IsMinimumBillableHours: Boolean
+  ItemGroupCode: String!
+  MinimumBillableHours: Float
+  ModifiedDate: DateTime
+  ProjectID: ID!
+  ProjectMaterialID: ID
+  SupplierAgreementID: ID
+  SupplierID: ID!
+  WasteDestinationID: ID
+  WasteSourceID: ID
+  createdBy: Person
+  docketRateItemGroupAllowanceRules: [DocketRateItemGroupAllowanceRule!]
+  docketRateItemGroupAttachmentRules: [DocketRateItemGroupAttachmentRule!]
+  docketRateItemGroupBaseRules: [DocketRateItemGroupBaseRule!]
+  docketRateItemType: DocketRateItemType
+  modifiedBy: Person
+  project: Project
+  projectMaterial: ProjectMaterial
+  supplier: Supplier
+  supplierContractSetUp: SupplierContractSetUp
+  wasteDestination: ProjectLocation
+  wasteSource: ProjectLocation
+}
+
+type DocketRateItemGroupAllowanceRule {
+  ApplicableAfterHours: Float!
+  DocketRateItemGroupID: ID!
+  DocketRateItemID: ID!
+  ID: ID!
+  docketRateItem: DocketRateItem
+  docketRateItemGroup: DocketRateItemGroup
+}
+
+input DocketRateItemGroupAllowanceRuleInput {
+  ApplicableAfterHours: Float!
+  DocketRateItemID: ID!
+  ID: ID
+}
+
+type DocketRateItemGroupAttachmentRule {
+  Description: String!
+  DocketRateItemGroupID: ID!
+  DocketRateItemID: ID!
+  ID: ID!
+  docketRateItem: DocketRateItem
+  docketRateItemGroup: DocketRateItemGroup
+}
+
+input DocketRateItemGroupAttachmentRuleInput {
+  Description: String!
+  DocketRateItemID: ID!
+  ID: ID
+}
+
+type DocketRateItemGroupBaseRule {
+  DocketRateItemGroupID: ID!
+  DocketRateItemID: ID!
+  ID: ID!
+  IsLastSequenceNo: Boolean!
+  RangeFrom: Float!
+  RangeTo: Float
+  SequenceNo: Float!
+  docketRateItem: DocketRateItem
+  docketRateItemGroup: DocketRateItemGroup
+}
+
+input DocketRateItemGroupBaseRuleInput {
+  DocketRateItemID: ID!
+  ID: ID
+  IsLastSequenceNo: Boolean!
+  RangeFrom: Float!
+  RangeTo: Float
+  SequenceNo: Float!
+}
+
+input DocketRateItemGroupFilterObject {
+  CreateDockets: [Int!]
+  DocketRateItemGroupTypeIDs: [ID!]
+  ItemGroupCodes: [String!]
+  ItemGroupDescription: String
+  SupplierIDs: [ID!]
+}
+
+input DocketRateItemGroupInput {
+  ID: ID
+  docketRateItemGroupAllowanceRulesInput: [DocketRateItemGroupAllowanceRuleInput!]
+  docketRateItemGroupAttachmentRulesInput: [DocketRateItemGroupAttachmentRuleInput!]
+  docketRateItemGroupBaseRulesInput: [DocketRateItemGroupBaseRuleInput!]!
+  docketRateItemGroupSupplierInput: DocketRateItemGroupSupplierInput!
+}
+
+type DocketRateItemGroupPaginatedResponse {
+  items: [DocketRateItemGroup!]!
+  pagination: PaginationResponse
+}
+
+input DocketRateItemGroupSupplierInput {
+  CreateDocket: Boolean!
+  Description: String!
+  DocketRateItemTypeID: ID!
+  ItemGroupCode: String!
+  MinimumBillableHours: Float
+  ProjectID: ID!
+  ProjectMaterialID: ID
+  SupplierAgreementID: ID
+  SupplierID: ID!
+  WasteDestinationID: ID
+  WasteSourceID: ID
+}
+
+input DocketRateItemInput {
+  CreateDocket: Boolean!
+  DocketRateItemTypeID: ID!
+  DocketRateUnitOfMeasurementID: ID!
+  ID: ID
+  ItemCode: String!
+  ItemDescription: String!
+  ProjectID: ID!
+  ProjectMaterialID: ID
+  Rate: Float!
+  SupplierAgreementID: ID!
+  SupplierID: ID!
+  WasteDestinationID: ID
+  WasteSourceID: ID
+}
+
+type DocketRateItemPaginatedResponse {
+  items: [DocketRateItem!]!
+  pagination: PaginationResponse
+}
+
+type DocketRateItemType {
+  Description: String!
+  GroupDescription: String!
+  ID: ID!
+  Name: String!
+  docketRateUnitOfMeasurements: [DocketRateUnitOfMeasurement!]
+}
+
+type DocketRateItemView {
+  Description: String!
+  DocketRateType: String!
+  ID: ID!
+  ItemCode: String
+  ItemType: String!
+  MaterialName: String
+  ProjectID: ID!
+  SupplierID: ID!
+  WasteDestination: String
+  WasteSource: String
+}
+
+input DocketRateItemViewCorFilter {
+  MaterialID: ID!
+  WasteDestinationID: ID!
+  WasteSourceID: ID!
+}
+
+type DocketRateItemViewPaginatedResponse {
+  items: [DocketRateItemView!]!
+  pagination: PaginationResponse
+}
+
+type DocketRateUnitOfMeasurement {
+  ID: ID!
+  Name: String!
+  ShowQuantityTextbox: Boolean!
+  ShowTimeTextbox: Boolean!
+}
+
+input DocketReconciledInput {
+  DocketIDs: [ID!]!
+  EnteredInvoiceTotal: Float!
+  InvoiceNumber: String!
+}
+
+type DocketRemark {
+  CreatedDate: DateTime
+  DocketID: ID!
+  ID: ID!
+  IsInternalComment: Boolean
+  Remark: String!
+  RemarkBy: ID!
+  RemarkDate: Date!
+  RoleID: ID!
+  createdBy: Person
+  docket: Docket
+  modifiedBy: Person
+  remarkBy: Person
+  role: Role
+}
+
+input DocketRemarkInput {
+  ID: ID
+  Remark: String!
+}
+
+input DocketSafetyChecklistInput {
+  DocketDate: Date!
+  DocketID: ID
+  IsLeadingHand: Boolean
+  PlantImage: String
+  docketPreStartDetailInput: DocketPreStartDetailInput!
+  personalSafetyChecklistItemInputs: [PersonalSafetyChecklistItemInput!]!
+  plantSafetyChecklistItemInputs: [PlantSafetyChecklistItemInput!]
+}
+
+type DocketSiteEvent {
+  CreatedBy: ID
+  CreatedDate: DateTime
+  DocketID: ID!
+  ID: ID!
+  Latitude: Float
+  Longitude: Float
+  SiteEventID: ID!
+  createdBy: Person
+  docket: Docket
+  modifiedBy: Person
+  siteEvent: SiteEvent
+}
+
+type DocketSiteEventRequestPaginatedResponse {
+  items: [DocketSiteEvent!]!
+  pagination: PaginationResponse
+}
+
+type DocketStatus {
+  BriefStatus: String!
+  ID: ID!
+  Name: String!
+  NumberOfDocket: Int
+  OrderNumber: Int
+}
+
+type DocketStatusHistory {
+  ApprovalStatus: String
+  CreatedDate: DateTime
+  DocketID: ID!
+  DocketStatusID: ID!
+  ID: ID!
+  Information: String
+  RoleID: ID!
+  StatusBy: ID
+  createdBy: Person
+  docket: Docket
+  docketStatus: DocketStatus
+  modifiedBy: Person
+  role: Role
+  statusBy: Person
+}
+
+type DocketStatusHistoryPaginatedResponse {
+  items: [DocketStatusHistory!]!
+  pagination: PaginationResponse
+}
+
+type DocketTailgateChecklistDetail {
+  Answer: String!
+  Attachment: String
+  CreatedDate: DateTime!
+  DocketTailgateQuestionID: ID!
+  DocketWeighBridgeDepartureDtlID: ID!
+  ID: ID!
+  Notes: String
+  docketTailgateQuestion: DocketTailgateInspectionQuestionList
+  docketWeighBridgeDepartureDetail: DocketWeighBridgeDepartureDetail
+}
+
+type DocketTailgateInspectionQuestionList {
+  ID: ID!
+  QuestionText: String!
+}
+
+input DocketValueFilter {
+  Amount: Float
+  Operation: String
+}
+
+input DocketWeighBridgeApprovalCostCodeInput {
+  CostCodeAmount: Float!
+  CostCodePercent: Float!
+  CostCodeQuantity: Float
+  ID: ID
+  ProjectCostCentreID: ID!
+}
+
+input DocketWeighBridgeApprovalDepartureInput {
+  DocketRateItemGroupID: ID
+  DocketRateItemID: ID
+  MaterialID: ID!
+  WasteDestinationID: ID!
+  WasteSourceID: ID!
+}
+
+input DocketWeighBridgeApprovalInput {
+  DocketID: ID!
+  DocketTotalAmount: Float
+  RequestedStatusID: ID!
+  costingApprovalInputs: [DocketWeighBridgeCostingApprovalInput!]!
+  departureInput: DocketWeighBridgeApprovalDepartureInput
+}
+
+type DocketWeighBridgeArrivalDetail {
+  CreatedDate: DateTime!
+  DocketWeighBridgeDetailID: ID!
+  GatekeeperID: ID!
+  ID: ID!
+  PlantPhoto: String!
+  TrailerPhoto: String
+  docketWeighBridgeDetail: DocketWeighBridgeDetail
+  gateKeeper: Person
+}
+
+input DocketWeighBridgeArrivalInput {
+  DocketWeighBridgeDetailID: ID!
+  PlantPhoto: String!
+  ProjectID: ID!
+  TrailerPhoto: String
+  WasteSourceID: ID!
+}
+
+input DocketWeighBridgeCostingApprovalInput {
+  ApprovalAmount: Float!
+  ApprovalPercent: Float!
+  ApprovalQuantity: Float!
+  EngineerID: ID
+  EngineerStatusID: ID
+  EngineerStatusReason: String
+  ForemanID: ID!
+  ForemanStatusID: ID
+  ForemanStatusReason: String
+  ID: ID
+  docketApprovalCostCodeInputs: [DocketWeighBridgeApprovalCostCodeInput!]!
+}
+
+type DocketWeighBridgeDepartureDetail {
+  AxelWeight1: Float
+  AxelWeight2: Float
+  AxelWeight3: Float
+  AxelWeight4: Float
+  CreatedDate: DateTime!
+  DocketWeighBridgeDetailID: ID!
+  ForemanID: ID
+  GateKeeperID: ID!
+  ID: ID!
+  MaterialID: ID
+  NetWeight: Float
+  ProceedToDelivery: Boolean!
+  TareWeight: Float
+  TotalMaterialWeight: Float
+  WeighingSystem: String
+  docketTailgateChecklistDetails: [DocketTailgateChecklistDetail!]
+  docketWeighBridgeDetail: DocketWeighBridgeDetail
+  foreman: Person
+  gateKeeper: Person
+  material: ProjectMaterial
+}
+
+input DocketWeighBridgeDepartureInput {
+  DocketRateItemGroupID: ID
+  DocketRateItemID: ID
+  DocketWeighBridgeDetailID: ID!
+  ForemanID: ID!
+  ID: ID
+  MaterialID: ID!
+  NetWeight: Float
+  ProceedToDelivery: Boolean!
+  ProjectID: ID!
+  TotalMaterialWeight: Float
+  WasteDestinationID: ID!
+  WeighingSystem: String!
+  location: Location
+  tailgateInspectionInputs: [DocketWeighBridgeTailgateInspectionInput!]!
+}
+
+type DocketWeighBridgeDetail {
+  CancelReason: String
+  CreatedDate: DateTime!
+  DocketDetailID: ID!
+  ErrorMessage: String
+  ID: ID!
+  IsArrivalCompleted: Boolean!
+  IsDepartureCompleted: Boolean!
+  IsDocketCancelled: Boolean!
+  IsDocketStarted: Boolean!
+  IsDumpCompleted: Boolean!
+  IsPlantRegistrationFailed: Boolean!
+  IsTrailerAttached: Boolean!
+  Latitude: Float
+  Longitude: Float
+  PlantPhoto: String!
+  PlantRegistrationNumber: String!
+  ReceiptNumber: String
+  ReceiptPhoto: String
+  TrailerPhoto: String
+  TrailerRegistrationNumber: String
+  WasteDestinationID: ID
+  WasteSourceID: ID
+  docketDetail: DocketDetail
+  docketWeighBridgeArrivalDetail: DocketWeighBridgeArrivalDetail
+  docketWeighBridgeDepartureDetail: DocketWeighBridgeDepartureDetail
+  docketWeighBridgeEvents: [DocketWeighBridgeEvent!]
+  trailerPlant: ExternalPlant
+  truckPlant: ExternalPlant
+  wasteDestination: ProjectLocation
+  wasteSource: ProjectLocation
+}
+
+input DocketWeighBridgeDetailPreStartInput {
+  DocketDetailID: ID!
+  IsTrailerAttached: Boolean!
+  PlantPhoto: String!
+  PlantRegistrationNumber: String!
+  TrailerPhoto: String
+  TrailerRegistrationNumber: String
+  location: Location
+}
+
+type DocketWeighBridgeEvent {
+  CreatedDate: DateTime!
+  DocketWeighBridgeDetailID: ID
+  EventBy: ID!
+  EventDate: Date!
+  EventType: String!
+  ID: ID!
+  Remark: String
+  docketWeighBridgeDetail: DocketWeighBridgeDetail
+  eventBy: Person
+}
+
+input DocketWeighBridgeFilterObject {
+  DocketStatus: String
+  IsForSubbyApp: Boolean
+  IsOnlyArrived: Boolean
+  ProjectLocationID: ID
+  Status: String
+}
+
+type DocketWeighBridgeNextBreakDetail {
+  BreakDate: Date!
+  BreakDuration: Int
+  ID: ID!
+  IsRoundDownRestBreak: Boolean
+  NextBreakTime: Time!
+  PersonID: ID!
+  TotalHours: Float
+  person: Person
+}
+
+input DocketWeighBridgeTailgateInspectionInput {
+  Answer: String!
+  Attachment: String
+  DocketTailgateQuestionID: ID!
+  Notes: String
+}
+
+type EmployeeBenefit {
+  CreatedDate: DateTime
+  EmployeeBenefitCategoryID: ID!
+  ID: ID!
+  IsActive: Boolean!
+  KeepToTop: Boolean!
+  Title: String!
+  URL: String!
+  employeeBenefitCategory: EmployeeBenefitCategory!
+}
+
+type EmployeeBenefitCategory {
+  CategoryName: String!
+  ID: ID!
+  NameType: String!
+}
+
+input EmployeeBenefitInput {
+  EmployeeBenefitCategoryID: ID
+  ID: ID
+  IsActive: Boolean!
+  KeepToTop: Boolean!
+  Title: String!
+  URL: String!
+}
+
+type EmployeeBenefitPaginatedResponse {
+  items: [EmployeeBenefit!]!
+  pagination: PaginationResponse
+}
+
+type EventType {
+  BackgroundColor: String!
+  EventType: String!
+  ID: ID!
+  ImageURL: String!
+  IsActive: Boolean!
+}
+
+type ExternalPeoplePaginatedResponse {
+  items: [ExternalPerson!]!
+  pagination: PaginationResponse
+}
+
+type ExternalPerson {
+  CreatedDate: DateTime
+  DefaultRate: Float
+  DefaultRateType: String
+  ID: ID!
+  PersonID: ID
+  PersonType: String
+  SupplierID: ID
+  person: Person!
+  supplier: Supplier!
+}
+
+input ExternalPersonInput {
+  DefaultRate: Float!
+  DefaultRateType: String!
+  Email: String
+  Firstname: String!
+  ID: ID
+  IsActive: Boolean
+  LabourType: String!
+  Lastname: String!
+  PersonID: ID
+  PersonType: String
+  Phone: String
+  StateID: ID!
+  SupplierID: ID!
+}
+
+input ExternalPersonSubbieInput {
+  Email: String
+  Firstname: String!
+  ID: ID
+  IsAccessToSubcontractorForSubbie: Boolean
+  IsActive: Boolean
+  LabourType: String!
+  Lastname: String!
+  PersonID: ID
+  PersonType: String
+  Phone: String
+  ProjectID: ID!
+}
+
+type ExternalPlant {
+  AxleWeightValue1: Float
+  AxleWeightValue2: Float
+  AxleWeightValue3: Float
+  AxleWeightValue4: Float
+  CreatedDate: DateTime
+  HireType: String!
+  ID: ID!
+  IsActive: Boolean
+  LVNumber: String
+  PlantRegistrationNumber: String
+  PlantType: String!
+  SupplierID: Float
+  TareWeight: Float
+  plant: Plant!
+  supplier: Supplier!
+}
+
+input ExternalProjectStaffInput {
+  ExternalPersonID: ID!
+  ID: ID
+  IsActive: Boolean = false
+  ProjectID: ID!
+  Rate: Float!
+  RateType: String!
+  WorkerType: String!
+}
+
+type FavouriteProject {
+  ID: ID!
+  IsDefault: Boolean
+  project: Project!
+}
+
+input FavouriteProjectInput {
+  ProjectID: ID!
+}
+
+type FileDetail {
+  FileName: String!
+  Url: String!
+}
+
+input FileInput {
+  Module: String
+  Name: String!
+  Type: String!
+  UseSimpleName: Boolean
+}
+
+type FileResolverResult {
+  FileKey: String!
+  UploadUrl: String!
+  Url: String!
+}
+
+input Filter {
+  field: String
+  op: String
+  relationField: String
+  relationJoin: String
+  values: [String!]
+}
+
+input FiltersExpression {
+  childExpressions: [FiltersExpression!]
+  filters: [Filter!]
+  operator: String
+  pagination: Pagination
+  sorters: [Sorter!]
+}
+
+input FinishWeighBridgeBreakInput {
+  CurrentTime: Time!
+  DocketID: ID!
+  Duration: Int!
+  RoundDownDuration: Int
+}
+
+type ForemanCode {
+  Code: String!
+  CreatedDate: DateTime!
+  DefaultEndTime: Time
+  DefaultStartTime: Time
+  ID: ID!
+  IsActive: Boolean!
+  LAHATypeID: ID
+  ProjectID: ID!
+  ShiftTypeID: ID
+  TimesheetAllowanceTypeID: ID
+  TimesheetLeaveTypeID: ID
+  createdBy: Person
+  lahaType: LAHAType
+  modifiedBy: Person
+  shiftType: ShiftType
+  timesheetAllowanceType: TimesheetAllowanceType
+  timesheetLeaveType: TimesheetLeaveType
+}
+
+type ForemanTimesheet {
+  AdditionalInformation: String!
+  Comments: String
+  CreatedDate: DateTime!
+  EndTime: Time
+  ForemanCodeID: ID
+  ForemanID: ID!
+  ForemanStatus: String!
+  ID: ID!
+  LunchTime: Float
+  PersonID: ID!
+  ProjectID: ID!
+  StartTime: Time
+  TotalHours: Float!
+  WorkDate: DateTime!
+  createdBy: Person
+  foreman: Person
+  foremanCode: ForemanCode
+  foremanTimesheetDetails: [ForemanTimesheetDetail!]
+  modifiedBy: Person
+  person: Person
+  project: Project
+}
+
+type ForemanTimesheetDetail {
+  EndTime: Time!
+  ForemanTimesheetID: ID!
+  ID: ID!
+  ProjectCostCentreID: ID!
+  ProjectLocationID: ID!
+  StartTime: Time!
+  TotalHours: Float!
+  projectCostCentre: ProjectCostCentre
+  projectLocation: ProjectLocation
+}
+
+input GenerateDocketItemExistingRatesLookupTemplateInput {
+  ProjectID: ID!
+  SupplierAgreementID: ID!
+  SupplierID: ID!
+}
+
+input GenerateSORItemExistingRatesLookupTemplateInput {
+  ProjectID: ID!
+  SupplierAgreementID: ID!
+  SupplierID: ID!
+}
+
+type HourMinItem {
+  Hour: Float!
+  Minute: Float!
+}
+
+input ImportDocketItemExistingRatesInput {
+  FileKey: String!
+  ProjectID: ID!
+  SupplierAgreementID: ID!
+  SupplierID: ID!
+}
+
+input ImportMaterialDocketInput {
+  FileKey: String!
+  ProjectID: ID!
+  SupplierID: ID!
+}
+
+input ImportSORItemExistingRatesInput {
+  FileKey: String!
+  ProjectID: ID!
+  SupplierAgreementID: ID!
+  SupplierID: ID!
+}
+
+type InternalPeoplePaginatedResponse {
+  items: [InternalPerson!]!
+  pagination: PaginationResponse
+}
+
+type InternalPerson {
+  AnnualLeaveBalance: Float
+  Approver1ID: Float
+  Approver2ID: Float
+  CreatedDate: DateTime
+  EmployeeID: String
+  GeotrakID: Float
+  HomeProjectID: Float
+  ID: ID!
+  IsADFS: Boolean
+  KicID: Float
+  PayrollSubClassificationID: Float
+  PayrollSubClassificationSuffix: String
+  PersonID: Float
+  PositionTitle: String
+  WorkdayID: Float
+  approver1: Person
+  approver2: Person
+  company: Company!
+  homeProject: Project
+  payScheduleGroup: PayScheduleGroup
+  payrollClassification: PayrollClassification
+  payrollSubClassification: PayrollSubClassification
+  person: Person!
+}
+
+type InternalPlant {
+  AssetID: String!
+  CreatedDate: DateTime
+  CurrentCost: Float
+  CurrentUnits: Int
+  DisposalDate: Date
+  DisposalType: String
+  ID: ID!
+  Kilometers: Float
+  LastUpdatedKMs: Date
+  Make: String
+  MinimumHoursPerDay: Float
+  Model: String
+  OriginalCost: Float
+  PlantID: ID
+  PlantTypeID: ID
+  RegistrationUnitNo: String
+  SupplierID: ID
+  company: Company!
+  plant: Plant!
+  plantType: PlantType
+  supplier: Supplier
+}
+
+type LAHAType {
+  Description: String!
+  ID: ID!
+  LahaCode: String!
+}
+
+type LatestPolicyConfiguration {
+  Content: String
+  IsPolicyAcceptanceRequired: Boolean!
+  PrivacyConfigurationID: ID
+  Reference: String
+  Version: Float
+}
+
+input Location {
+  Latitude: Float!
+  Longitude: Float!
+}
+
+input LockExternalTimesheetsInput {
+  ID: ID!
+  LockExternalTimesheets: Boolean!
+  LockExternalTimesheetsDate: Date
+}
+
+type MVC {
+  AppName: String!
+  ID: ID!
+  LatestVersion: String
+  MinimumVersion: String
+  Note: String
+}
+
+input MVCInput {
+  ID: Float!
+  LatestVersion: String!
+  MinimumVersion: String!
+  Note: String
+}
+
+type Mutation {
+  acceptPolicy(input: UserPrivacyInput!): PrivacyConfiguration!
+  addFavouriteProject(input: FavouriteProjectInput!): FavouriteProject!
+  addLoginHistory: Audit!
+  addOrRemoveDefaultFavouriteProject(ID: ID!): [FavouriteProject!]!
+  addUserActivity(input: UserActivityCreateInput!): UserActivity!
+  addUserCompanyAccess(input: UserCompanyAccessCreateInput!): Person!
+  addUserTimesheetDefault(input: UserTimesheetDefaultInput!): UserTimesheetDefault!
+  addWeighBridgePersonalChecklistPreStart(input: WeighBridgePersonalChecklistPreStartInput!): DocketDetail!
+  addWeighBridgePlantChecklistPreStart(input: WeighBridgePlantChecklistPreStartInput!): DocketDetail!
+  applyInvoiceDockets(DocketIDs: [ID!]!, ForManualDocket: Boolean, InvoiceNumberInput: String!): [Docket!]!
+  applyInvoiceSORs(InvoiceNumberInput: String!, SORIDs: [ID!]!): [ScheduleOfRate!]!
+  applyReconciledDockets(input: DocketReconciledInput!): [Docket!]!
+  applyReconciledSORs(input: SORReconciledInput!): [ScheduleOfRate!]!
+  cancelMaterialDocket(CancelledReason: String!, DocketIDs: [ID!]!): [Docket!]!
+  cancelWeighBridgeDocket(input: CancelWeighBridgeDocketInput!): String!
+  checkCreateSORDailyRecord(ScheduleOfRateID: ID!): String!
+  clockedOff(location: Location): String!
+  clockedOn(location: Location): String!
+  cloneWeighBridgeDocket(input: CloneWeighBridgeDocketInput!): DocketDetail!
+  completeDumpWeighBridgeDocket(input: WeighBridgeDumpInput!): DocketWeighBridgeDetail!
+  copyRequisitionSupplyAgreement(FromProjectID: ID!, ToProjectID: ID!): [RequisitionApproverHierarchy!]!
+  createSORPreStartDetail(input: SORPreStartDetailInput!): ScheduleOfRate!
+  createTempWeighBridgeDocket(DocketDate: Date!): Docket!
+  delegateToSubbie(input: AssignDelegatePersonToSORInput!): String!
+  deleteDocket(DocketID: ID!): String!
+  deleteDocketItem(ID: ID!): String!
+  deleteDocketItemGroup(ID: ID!): String!
+  deleteEmployeeBenefit(employeeBenefitID: ID!): String!
+  deleteExternalPeople(ExternalPersonID: ID!): ExternalPerson!
+  deleteProjectClient(ProjectClientID: ID!): String!
+  deleteRequisitionSupplyAgreement(ProjectID: ID!, RequisitionApproverHierarchyID: ID!): String!
+  deleteSOR(ScheduleOfRateID: ID!): String!
+  deleteSORItem(ID: ID!): String!
+  deleteSORRecordDetail(SORRecordDetailID: ID!): String!
+  deleteSiteEvent(ID: ID!): String!
+  deleteSupplierContractSetUp(SupplierContractSetUpID: ID!): String!
+  deleteTimesheet(TimesheetID: ID!): String!
+  finishWeighBridgeBreakPeriod(input: FinishWeighBridgeBreakInput!, location: Location): DocketBreak
+  importDocketItemExistingRates(input: ImportDocketItemExistingRatesInput!): BatchProcess!
+  importDocketItemNewRates(input: ImportDocketItemExistingRatesInput!): BatchProcess!
+  importMaterialDockets(input: ImportMaterialDocketInput!): BatchProcess!
+  importSORItemExistingRates(input: ImportSORItemExistingRatesInput!): BatchProcess!
+  importSORItemNewRates(input: ImportSORItemExistingRatesInput!): BatchProcess!
+  rejectMaterialDockets(DocketIDs: [ID!]!, RejectReason: String!): [Docket!]!
+  removeDocketApprovalHierarchy(DocketApprovalHierarchyID: ID!, ProjectID: ID!): String!
+  removeExternalProjectStaff(ProjectAssignmentID: ID!): ExternalPerson!
+  removeFavouriteProject(input: FavouriteProjectInput!): String!
+  removeProjectMaterial(ProjectMaterialID: ID!): String!
+  removeSORApproverHierarchy(ProjectID: ID!, SORApproverHierarchyID: ID!): String!
+  resetDocketWorkflow(ApprovalID: ID!, DocketID: ID!, Reason: String!): String!
+  sendBackStatusDocket(DocketID: ID!, input: SendBackStatusDocketTypeInput!): String!
+  startWeighBridgeBreakPeriod(CurrentTime: Time!, DocketID: ID!, location: Location): DocketBreak!
+  updateCrewDocket(input: DocketInput!): Docket!
+  updateDocketPhotoAndRemark(input: DocketPhotoAndRemarkInput!): Docket!
+  updateEventType(BackgroundColor: String!, ID: ID!, ImageURL: String!): EventType!
+  updateExternalPeopleInfo(input: UpdateExternalPersonInfoInput!): ExternalPerson!
+  updateLastSelectedProjectForCurrentPerson(ProjectID: ID!): Person!
+  updateLastSelectedProjectLocation(ProjectLocationID: ID!): Person!
+  updateMobileVersionConfiguration(input: MVCInput!): MVC!
+  updateMultiItemDocket(input: DocketMultiItemInput!): Docket!
+  updateProjectDocketSetting(input: ProjectDocketSettingInput!): ProjectDetail!
+  updateProjectInternalPlant(input: ProjectInternalPlantInput!): InternalPlant!
+  updateSORPhotoAndRemark(input: SORPhotoAndRemarkInput!): ScheduleOfRate!
+  updateSystemConfiguration(input: SystemConfigurationInput!): SystemConfiguration!
+  updateUserActivity(input: UserUpdateActivityInput!): UserActivity!
+  updateWeighBridgeArrival(input: DocketWeighBridgeArrivalInput!): DocketWeighBridgeDetail!
+  updateWeighBridgeDocketCostingApproval(input: DocketWeighBridgeApprovalInput!): String!
+  updateWeighBridgeSetting(input: ProjectWeighBridgeSettingInput!): ProjectDetail!
+  updateWeighBridgeStartTimePreStart(input: WeighBridgeStartTimePreStartInput!): DocketDetail!
+  uploadFile(input: FileInput!): FileResolverResult!
+  uploadImage(input: FileInput!): FileResolverResult!
+  upsertDocketApprovalHierarchy(ProjectID: ID!, input: DocketApproverHierarchyInput!): DocketApproverHierarchy!
+  upsertDocketApprovalItem(input: DocketItemInput!): String!
+  upsertDocketCostingApproval(DocketID: ID!, RoleName: String, inputs: [DocketCostingApprovalInput!]!): String!
+  upsertDocketItem(input: DocketRateItemInput!): DocketRateItem!
+  upsertDocketItemGroup(input: DocketRateItemGroupInput!): DocketRateItemGroup!
+  upsertDocketPaperBased(input: DocketPaperBasedInput!): Docket!
+  upsertDocketSafetyChecklist(input: DocketSafetyChecklistInput!): Docket!
+  upsertDocketWeighBridgeDetailPreStart(ProjectID: ID!, input: DocketWeighBridgeDetailPreStartInput!): DocketWeighBridgeDetail!
+  upsertEmployeeBenefit(input: EmployeeBenefitInput!): EmployeeBenefit!
+  upsertExternalPeople(input: ExternalPersonInput!): ExternalPerson!
+  upsertExternalPersonSubbie(input: ExternalPersonSubbieInput!): String!
+  upsertExternalProjectStaff(input: ExternalProjectStaffInput!): ExternalPerson!
+  upsertLockExternalTimesheet(input: LockExternalTimesheetsInput!): Project!
+  upsertProject(input: ProjectInput!): Project!
+  upsertProjectClient(input: ProjectClientInput!): ProjectClient!
+  upsertProjectCostCentre(input: ProjectCostCentreInput!): ProjectCostCentre!
+  upsertProjectExternalPlant(input: ProjectPlantExternalInput!): ExternalPlant!
+  upsertProjectLocation(input: ProjectLocationInput!): ProjectLocation!
+  upsertProjectMaterial(input: ProjectMaterialInput!): ProjectMaterial!
+  upsertRequisitionPurchase(input: RequisitionPurchaseCreateInput!): RequisitionPurchaseDetail!
+  upsertRequisitionSupplyAgreement(input: RequisitionApproverHierarchyInput!): RequisitionApproverHierarchy!
+  upsertSORApproverHierarchy(input: SORStructureInput!): SORApproverHierarchy!
+  upsertSORCostingApproval(RoleName: String, SORID: ID!, input: SORCostingApprovalInput!): String!
+  upsertSORDailyCrewRecord(input: SORDailyCrewRecordInput!): [SORCrewMemberDetail!]!
+  upsertSORDetail(input: SORDetailInput!): ScheduleOfRate!
+  upsertSORItem(input: SORItemInput!): SORItem!
+  upsertSORSafetyChecklist(input: SORSafetyChecklistInput!): SORRecordDetail!
+  upsertSiteEvent(input: SiteEventUpsertInput!): SiteEvent!
+  upsertSiteEventForMobile(input: SiteEventUpsertForMobileInput!): SiteEvent!
+  upsertSubcontractorDocketDefault(input: SubcontractorDocketDefaultInput!): SubcontractorDocketDefault!
+  upsertSupplierContractSetUp(input: SupplierContractSetUpInput!): SupplierContractSetUp!
+  upsertTimesheet(input: UpdateTimesheetInput!): Timesheet!
+  upsertUserProjectAccess(input: UserProjectAccessCreateInput!): Person!
+  upsertWeighBridgeBreakSetting(input: WeighBridgeBreakSettingInput!): WeighBridgeBreakSetting!
+  upsertWeighBridgeDeparture(input: DocketWeighBridgeDepartureInput!): String!
+}
+
+input Pagination {
+  pageNumber: Float
+  pageSize: Float
+}
+
+type PaginationResponse {
+  pageNumber: Int!
+  pageSize: Int!
+  total: Int!
+  totalPage: Int!
+}
+
+type PagingResponseEmployeeBenefit {
+  items: [EmployeeBenefit!]!
+  pagination: PaginationResponse
+}
+
+type PagingResponseExternalPerson {
+  items: [ExternalPerson!]!
+  pagination: PaginationResponse
+}
+
+type PagingResponsePerson {
+  items: [Person!]!
+  pagination: PaginationResponse
+}
+
+type PagingResponseProject {
+  items: [Project!]!
+  pagination: PaginationResponse
+}
+
+type PayScheduleGroup {
+  Code: String!
+  Description: String!
+  ID: ID!
+  IsActive: Boolean!
+  Name: String
+}
+
+type PayrollClassification {
+  ClassificationName: String!
+  CompanyID: Float
+  CreatedDate: DateTime
+  ExpectedDailyHours: Float
+  ID: ID!
+  IsWagesStaff: Boolean
+  LockDate: Date
+  PayFrequency: String!
+  RestrictTimeEntryToAdmins: Boolean
+  WhiteCollar: Boolean!
+  company: Company
+}
+
+type PayrollSubClassification {
+  GroupName: String
+  ID: ID!
+  IsActive: Boolean!
+  PayrollClassificationID: ID!
+  RankWithinGroup: Float
+  SubClassificationCode: String!
+  SubClassificationDisplayName: String!
+  payrollClassification: PayrollClassification
+}
+
+type Person {
+  CreatedDate: DateTime
+  CurrentlyClockedOn: Boolean
+  Email: String
+  Firstname: String!
+  ID: ID!
+  IsActive: Boolean
+  IsEnableMFA: Boolean
+  LastSelectedProjectID: Float
+  LastSelectedProjectLocationID: ID
+  Lastname: String!
+  MfaPhone: String
+  Phone: String
+  WorkerTypeID: Float
+  allowedCompanies: [Company!]
+  companyRoles: [Role!]
+  externalPerson: ExternalPerson
+  foremanTimesheet: ForemanTimesheet
+  internalPerson: InternalPerson
+  lastSelectedProject: Project
+  lastSelectedProjectLocation: ProjectLocation
+  projectAssignment: ProjectStaff
+  projectRoles: [Role!]
+  projects: [Project!]
+  requisitionRole: [Role!]
+  roles: [Role!]
+  state: State
+  teamManagerPerson: TeamStaff
+  teamStaffs: [TeamStaff!]
+  workerType: WorkerType
+  workerTypeDescription: String
+}
+
+type PersonPaginatedResponse {
+  items: [Person!]!
+  pagination: PaginationResponse
+}
+
+type PersonalSafetyChecklist {
+  CreatedDate: DateTime
+  DocketDetailID: ID
+  DocketID: ID!
+  ID: ID!
+  SubmittedDate: Date!
+  createdBy: Person
+  docket: Docket
+  docketDetail: DocketDetail
+  modifiedBy: Person
+  personalSafetyChecklistItems: [PersonalSafetyChecklistItem!]
+}
+
+type PersonalSafetyChecklistItem {
+  Answer: Boolean!
+  Attachment: String
+  CreatedDate: DateTime
+  ID: ID!
+  Notes: String
+  PersonalSafetyChecklistID: ID!
+  PersonalSafetyQuestionListID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  personalSafetyChecklist: PersonalSafetyChecklist
+  personalSafetyQuestionList: PersonalSafetyQuestionList
+}
+
+input PersonalSafetyChecklistItemInput {
+  Answer: Boolean!
+  Attachment: String
+  Notes: String
+  PersonalSafetyQuestionListID: ID!
+}
+
+type PersonalSafetyQuestionList {
+  CrewQuestionText: String
+  DisplayQuestionText: String
+  FailurePrompt: String
+  ID: ID!
+  IsActive: Boolean!
+  IsHardStop: Boolean
+  QuestionFor: String
+  QuestionText: String!
+}
+
+type Plant {
+  Active: Boolean!
+  CreatedDate: DateTime
+  DefaultOperatorId: Float
+  ID: ID!
+  PlantName: String!
+  Rate: Float!
+  RateType: String!
+  defaultOperator: Person
+  plantMaintenance: PlantMaintenance
+  projectAssignment: ProjectPlant
+  projectAssignments: [ProjectPlant!]
+  timesheets: [PlantTimesheet!]
+}
+
+type PlantBookingRequest {
+  ApprovalDate: DateTime
+  ApprovedBy: Float
+  Details: String
+  EndDate: Date!
+  ID: ID!
+  PlantID: ID!
+  ProjectID: ID!
+  Rate: Float
+  RateType: String
+  Reason: String
+  RejectedBy: Float
+  RejectedDate: DateTime
+  RequestedBy: Float!
+  RequestedDate: DateTime!
+  StartDate: Date!
+  Status: String!
+  approvedBy: Person
+  plant: Plant
+  project: Project
+  projectPlant: ProjectPlant
+  rejectedBy: Person
+  requestedBy: Person
+}
+
+type PlantDefectPhoto {
+  CreatedDate: DateTime
+  ID: ID!
+  PhotoData: String!
+  PlantDefectID: Float!
+}
+
+type PlantEngineType {
+  EngineType: String!
+  ID: ID!
+  IsActive: Boolean!
+}
+
+type PlantMaintenance {
+  AssetID: String!
+  BuildDate: Date
+  CreatedDate: DateTime
+  CurrentCost: Float
+  CurrentUnits: Int
+  DPIImages: [String!]
+  DisposalDate: Date
+  DisposalType: String
+  DocumentData: String
+  EngineNo: String
+  EngineTypeID: ID
+  ID: ID!
+  Kilometers: Float
+  LastUpdatedKMs: Date
+  Make: String
+  MakeYear: Int
+  MinimumHoursPerDay: Float
+  Model: String
+  OriginalCost: Float
+  PlantID: ID
+  PlantTypeID: ID
+  RegistrationUnitNo: String
+  SupplierID: ID
+  VINNo: String
+  company: Company!
+  plant: Plant!
+  plantDefectPhoto: [PlantDefectPhoto!]
+  plantEngineType: PlantEngineType
+  plantType: PlantType
+  projectPlant: ProjectPlant
+  projectPlants: [ProjectPlant!]
+  supplier: Supplier
+}
+
+type PlantOffHireRequest {
+  ApprovalDate: DateTime
+  ApprovedBy: Float
+  Details: String
+  ID: ID!
+  ProjectPlantID: Float!
+  Reason: String
+  RejectedBy: Float
+  RejectedDate: DateTime
+  RequestedBy: Float!
+  RequestedDate: DateTime!
+  Status: String!
+  approvedBy: Person
+  projectPlant: ProjectPlant
+  rejectedBy: Person
+  requestedBy: Person
+}
+
+type PlantSafetyChecklist {
+  CreatedDate: DateTime
+  DocketDetailID: ID
+  DocketID: ID!
+  ID: ID!
+  PlantImage: String!
+  SubmittedDate: Date!
+  createdBy: Person
+  docket: Docket
+  docketDetail: DocketDetail
+  modifiedBy: Person
+  plantSafetyChecklistItems: [PlantSafetyChecklistItem!]
+}
+
+type PlantSafetyChecklistItem {
+  Answer: Boolean!
+  Attachment: String
+  CreatedDate: DateTime
+  ID: ID!
+  Notes: String
+  PlantSafetyChecklistID: ID!
+  PlantSafetyQuestionListID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  plantSafetyChecklist: PlantSafetyChecklist
+  plantSafetyQuestionList: PlantSafetyQuestionList
+}
+
+input PlantSafetyChecklistItemInput {
+  Answer: Boolean!
+  Attachment: String
+  Notes: String
+  PlantSafetyQuestionListID: ID!
+}
+
+type PlantSafetyQuestionList {
+  FailurePrompt: String
+  ID: ID!
+  IsActive: Boolean!
+  IsHardStop: Boolean
+  QuestionFor: String
+  QuestionText: String!
+}
+
+type PlantTimesheet {
+  CreatedDate: DateTime
+  DistanceTravelledKM: Float!
+  EndTime: Time
+  ForemanID: ID
+  ForemanStatus: String
+  ID: ID!
+  IdleTime: Float
+  IsInclementalWeather: Boolean
+  IsPublicHoliday: Boolean
+  IsSiteShutdown: Boolean
+  MissingTime: Time
+  OperatorID: ID
+  PlantBreakdown: Float
+  PlantID: ID!
+  ProjectCostCentreID: ID
+  ProjectID: ID!
+  ProjectLocationID: ID
+  Quantity: ID
+  Rate: Float!
+  RateType: String!
+  Standby: Boolean!
+  StartTime: Time
+  WorkDate: Date!
+  WorkGroupID: ID
+  WorksDescription: String
+  foreman: Person
+  operator: Person
+  plant: Plant!
+  project: Project
+  projectCostCentre: ProjectCostCentre
+  projectLocation: ProjectLocation
+  workGroup: WorkGroup
+}
+
+type PlantType {
+  Abbreviation: String!
+  ID: ID!
+  ImageFilename: String
+  PlantType: String!
+}
+
+type PreAdjustmentTimesheet {
+  AdjustmentID: ID
+  BankSunday: Boolean
+  CreatedBy: Float
+  CreatedDate: DateTime
+  EndTime: Time!
+  EntryType: String
+  HigherDutiesSubClassificationID: ID
+  ID: ID!
+  LAHATypeID: ID
+  LunchBreak: Float!
+  LunchStart: Time
+  ModifiedBy: Float
+  ModifiedDate: DateTime
+  PWB: Boolean
+  PWBMinutes: Float
+  PayrollNote: String
+  ProjectCostCentreID: ID
+  ProjectID: ID!
+  ProjectLocationID: String
+  ShiftType: ID
+  StartTime: Time!
+  TakeSunday: Boolean
+  TimesheetAllowanceTypeID: ID
+  TimesheetLeaveTypeID: ID
+  TunnelTravelID: ID
+  UnagreedEarlyStart: Boolean
+  WashTime: Float
+  WorkDate: Date!
+  WorkGroupID: ID
+  WorksDescription: String
+  higherDutiesSubClassification: PayrollSubClassification
+  lahaType: LAHAType
+  modifiedPerson: Person
+  person: Person
+  project: Project
+  projectCostCentre: ProjectCostCentre
+  projectLocation: ProjectLocation
+  shiftType: ShiftType
+  timesheetAdjustment: TimesheetAdjustment
+  timesheetAllowanceType: TimesheetAllowanceType
+  timesheetLeaveType: TimesheetLeaveType
+  tunnelTravel: TimesheetTunnelTravel
+  workGroup: WorkGroup
+}
+
+type PreRequisition {
+  Address: String!
+  CreatedDate: DateTime
+  EngineerID: ID!
+  ID: ID!
+  ItemDescription: String!
+  LocationID: ID
+  ProjectID: ID!
+  RequiredOn: DateTime
+  SiteContact: String!
+  Status: String!
+  createdBy: Person
+  engineer: Person!
+  location: ProjectLocation
+  preRequisitionAttachments: [PreRequisitionAttachment!]
+  project: Project!
+  requisition: Requisition
+}
+
+type PreRequisitionAttachment {
+  AttachmentPath: String!
+  CreatedDate: DateTime
+  ID: ID!
+  PreRequisitionID: ID!
+  preRequisition: PreRequisition!
+}
+
+input PrimaryDocketItemFilter {
+  ItemID: ID!
+  ItemType: String!
+}
+
+type PrintingTemplate {
+  CreatedDate: DateTime
+  Description: String!
+  ID: ID!
+  TemplateContent: String!
+  TemplateName: String!
+  createdBy: Person
+  modifiedBy: Person
+}
+
+type PrivacyConfiguration {
+  Content: String!
+  CreatedDate: DateTime
+  ID: ID!
+  ModifiedDate: DateTime
+  Reference: String!
+  Status: String!
+  Version: Float!
+  createdBy: Person!
+  modifiedBy: Person!
+}
+
+type Privilege {
+  Description: String!
+  ID: ID!
+  Name: String!
+  roles: [Role!]
+}
+
+type Project {
+  AllowMap: Boolean
+  CreatedBy: Float
+  CreatedDate: DateTime
+  ID: ID!
+  IsClosed: Boolean!
+  ModifiedBy: Float
+  ModifiedDate: DateTime
+  Name: String!
+  ProjectNo: String!
+  StateID: ID
+  company: Company
+  internalPeople: [InternalPerson!]
+  people: [Person!]
+  projectClient: [ProjectClient!]
+  projectDetail: ProjectDetail
+  projectExternalTimesheetLeaveType: [ProjectExternalTimesheetLeaveType!]
+  projectLocations: [ProjectLocation!]
+  projectMaterials: [ProjectMaterial!]
+  projectSiteAllowances: [ProjectSiteAllowance!]
+  projectSupplier: [ProjectSupplier!]
+  state: State
+}
+
+type ProjectClient {
+  ABN: String!
+  Address: String!
+  ClientName: String!
+  CreatedDate: DateTime
+  ID: ID!
+  PostCode: String
+  ProjectID: ID!
+  StateID: ID
+  state: State
+}
+
+input ProjectClientInput {
+  ABN: String
+  Address: String
+  ClientName: String
+  ID: ID
+  PostCode: String
+  ProjectID: ID!
+  StateID: ID!
+}
+
+type ProjectCostCentre {
+  Code: String!
+  CreatedDate: DateTime
+  Description: String!
+  ID: ID!
+  IsClosed: Boolean!
+  docketApproverHierarchies: [DocketApproverHierarchy!]
+  requisitionApproverHierarchies: [RequisitionApproverHierarchy!]
+  sorApproverHierarchies: [SORApproverHierarchy!]
+  userRequisitionAccesses: [UserRequisitionAccess!]
+}
+
+input ProjectCostCentreInput {
+  CanManualEdit: Boolean
+  Code: String!
+  Description: String
+  ID: ID
+  IsClosed: Boolean!
+  ProjectID: ID!
+}
+
+type ProjectDetail {
+  Address: String
+  ClosedDate: DateTime
+  ContractValue: Float
+  Country: ID
+  CreatedDate: DateTime
+  DefaultBreakdownDurationDocket: Float
+  DefaultMealDurationDocket: Int
+  DefaultMealStartTime: Time
+  DefaultPreStartTime: Time
+  DefaultSmokoDurationDocket: Int
+  DefaultSmokoStartTime: Time
+  DivisionID: ID
+  DocketEnabled: Boolean
+  ExternalTimesheetsEnabled: Boolean
+  FinanceSystem: String
+  ID: ID!
+  IsImported: Boolean
+  IsLOAForManualDocket: Boolean
+  JobValue: Float
+  LockExternalTimesheets: Boolean
+  LockExternalTimesheetsDate: Date
+  PostCode: String
+  PracticalCompDate: DateTime
+  PreStartBillableDocket: Boolean
+  PreStartDurationDocket: Int
+  ProjectID: ID!
+  ProjectTypeID: ID
+  RequisitionEnabled: Boolean
+  RequisitionLimit: Float
+  SOREnabled: Boolean
+  ScheduledCompDate: DateTime
+  SiteAllowance: Float
+  StaffTimesheetsEnabled: Boolean
+  StartDate: DateTime
+  TravelAllowanceTypeID: ID
+  WeightTolerance: Float
+  country: Country
+  division: Division
+  project: Project!
+  projectType: ProjectType
+  travelAllowanceType: TravelAllowanceType
+}
+
+input ProjectDetailInput {
+  Address: String
+  ClosedDate: Date
+  ContractValue: Float
+  Country: ID!
+  DivisionID: ID
+  DocketEnabled: Boolean = false
+  ExternalTimesheetsEnabled: Boolean = true
+  FinanceSystem: String!
+  ID: ID
+  JobValue: Float
+  PostCode: String
+  PracticalCompDate: Date
+  ProjectTypeID: ID!
+  RequisitionEnabled: Boolean = false
+  RequisitionLimit: Float = null
+  SOREnabled: Boolean = false
+  ScheduledCompDate: Date
+  SiteAllowance: Float
+  StaffTimesheetsEnabled: Boolean = true
+  StartDate: Date
+  TravelAllowanceTypeID: ID
+}
+
+input ProjectDocketSettingInput {
+  DefaultBreakdownDurationDocket: Float
+  DefaultMealDurationDocket: Int
+  DefaultMealStartTime: Time
+  DefaultPreStartTime: Time
+  DefaultSmokoDurationDocket: Int
+  DefaultSmokoStartTime: Time
+  IsLOAForManualDocket: Boolean
+  PreStartBillableDocket: Boolean!
+  PreStartDurationDocket: Int
+  ProjectID: ID!
+}
+
+type ProjectExternalTimesheetLeaveType {
+  ID: ID!
+  ProjectID: ID
+  TimesheetLeaveTypeID: ID
+  project: Project
+  timesheetLeaveType: TimesheetLeaveType
+}
+
+input ProjectInput {
+  AllowMap: Boolean = false
+  CompanyID: ID!
+  ID: ID
+  IsClosed: Boolean
+  Name: String!
+  ProjectDetailInput: ProjectDetailInput!
+  ProjectDirector: ID
+  ProjectNo: String!
+  StateID: ID!
+}
+
+input ProjectInternalPlantInput {
+  ForemanID: Float
+  ID: ID
+  InternalPlantID: ID
+  ProjectID: ID
+}
+
+type ProjectLocation {
+  Address: String!
+  CreatedDate: DateTime
+  ID: ID!
+  IsActive: Boolean!
+  Latitude: Float
+  LocationName: String!
+  LocationType: String
+  LocationTypes: [String!]
+  Longitude: Float
+  PayrollLocationType: String
+  ProjectID: ID
+  createdBy: Person
+}
+
+input ProjectLocationInput {
+  Address: String!
+  ID: ID
+  IsActive: Boolean!
+  Latitude: Float
+  LocationName: String!
+  LocationTypes: [String!]
+  Longitude: Float
+  PayrollLocationType: String = "Site"
+  ProjectID: ID!
+}
+
+type ProjectMaterial {
+  CreatedDate: DateTime
+  ID: ID!
+  IsActive: Boolean!
+  MaterialName: String!
+  ProjectID: ID!
+  createdBy: Person
+}
+
+input ProjectMaterialInput {
+  ID: ID
+  IsActive: Boolean!
+  MaterialName: String!
+  ProjectID: ID!
+}
+
+type ProjectMaterialPaginatedResponse {
+  items: [ProjectMaterial!]!
+  pagination: PaginationResponse
+}
+
+type ProjectPaginatedResponse {
+  items: [Project!]!
+  pagination: PaginationResponse
+}
+
+type ProjectPlant {
+  ClosingHours: Time
+  CostOverride: Float
+  CreatedDate: DateTime
+  ForemanID: ID
+  HireStartDate: Date
+  HireType: String
+  ID: ID!
+  IsActive: Boolean!
+  KMatCommencement: Float
+  MinimumHoursPerDay: Float
+  OpeningHours: Time
+  RateType: String
+  foreman: Person
+  plant: Plant
+  plantBookingRequest: PlantBookingRequest
+  plantOffHireRequests: [PlantOffHireRequest!]
+  project: Project
+}
+
+input ProjectPlantExternalInput {
+  Active: Boolean
+  ExternalPlantID: ID
+  HireType: String!
+  ID: ID
+  ProjectID: ID
+  Rate: Float!
+  RateType: String!
+}
+
+type ProjectSiteAllowance {
+  ClassificationID: ID
+  CompanyID: ID
+  ID: ID!
+  ProjectID: ID
+  SiteAllowance: Float!
+  company: Company
+  payrollClassification: PayrollClassification
+}
+
+type ProjectStaff {
+  CreatedDate: DateTime
+  ForemanID: ID
+  ID: ID!
+  IsActive: Boolean
+  Rate: Float!
+  RateType: String!
+  WorkerType: String
+  foreman: Person
+  project: Project
+}
+
+type ProjectSupplier {
+  CreatedBy: ID
+  CreatedDate: DateTime
+  ID: ID!
+  ModifiedBy: ID
+  ModifiedDate: DateTime
+  ProjectID: ID
+  SupplierID: ID
+  project: Project
+}
+
+type ProjectType {
+  ID: ID!
+  IsActive: Boolean!
+  ProjectType: String!
+}
+
+input ProjectWeighBridgeSettingInput {
+  ProjectID: ID!
+  WeightTolerance: Float!
+}
+
+type Query {
+  activePeople(filter: String, onlyInternal: Boolean): [Person!]!
+  calculateWeighBridgeDocketTime(DocketID: ID!): DateTime!
+  checkAndGetLatestPolicy: LatestPolicyConfiguration!
+  checkAvailableDocketDate(DocketDate: Date!, PersonID: ID): String!
+  checkAvailableSORDate(PersonID: ID, SORDate: Date!): String!
+  companies(OnlyCanCreateProject: Boolean): [Company!]!
+  docketApproverHierarchy(IsIncludedInactive: Boolean, ProjectID: ID!, filter: String, roleNames: [String!]): [DocketApproverHierarchy!]
+  docketRateItem(ID: ID!): DocketRateItem
+  docketRateItemGroup(ID: ID!): DocketRateItemGroup
+  docketTailgateInspectionQuestionList: [DocketTailgateInspectionQuestionList!]!
+  eventTypes(IsActiveOnly: Boolean): [EventType!]!
+  executeDocketOutstandingNotification: String
+  exportDocketRateItem(IDs: [ID!]!, sorter: Sorter): String!
+  exportDocketRateItemGroup(IDs: [ID!]!, sorter: Sorter): String!
+  exportDockets(DocketIDs: [ID!], IsAllProjectDocket: Boolean, ProjectID: ID, filter: String, filterObject: DocketFilterObject, status: String): String!
+  exportProjectExternalPlant(IsActive: Boolean, ProjectID: ID!): String!
+  exportProjectInternalPlant(IsActive: Boolean, ProjectID: ID!): String!
+  exportRequisitionPurchaseReport(AllProjectRequisition: Boolean, IsExcludeRejected: Boolean, ProjectID: ID!, RequisitionStatus: String, filter: String, filterObject: RequisitionFilterObject): String!
+  exportRequisitionSummaryReport(AllProjectRequisition: Boolean, IsExcludeRejected: Boolean, ProjectID: ID!, RequisitionStatus: String, filter: String, filterObject: RequisitionFilterObject): String!
+  exportSORItem(IDs: [ID!]!, sorter: Sorter): String!
+  exportSORs(IsAllProjectSOR: Boolean, ProjectID: ID, SORIDs: [ID!], filter: String, filterObject: SORFilterObject, status: String): String!
+  externalPeople(IsActiveOnly: Boolean, PersonTypes: [String!], SupplierID: ID!): [ExternalPerson!]!
+  favouriteProjects(docketEnabled: Boolean, externalTimesheetEnabled: Boolean, forDashboardOnly: Boolean, forSubbieTimesheet: Boolean, requisitionEnabled: Boolean, sorEnabled: Boolean, staffTimesheetEnabled: Boolean): [FavouriteProject!]!
+  findManyEmployeeBenefits(filter: FiltersExpression!): PagingResponseEmployeeBenefit!
+  findManyExternalPersons(filter: FiltersExpression!): PagingResponseExternalPerson!
+  findManyPersons(filter: FiltersExpression!): PagingResponsePerson!
+  findManyProjects(filter: FiltersExpression!): PagingResponseProject!
+  findOneEmployeeBenefit(filter: FiltersExpression!): EmployeeBenefit!
+  findOneExternalPerson(filter: FiltersExpression!): ExternalPerson!
+  findOnePerson(filter: FiltersExpression!): Person!
+  findOneProject(filter: FiltersExpression!): Project!
+  generateDocketItemExistingRatesLookupTemplate(input: GenerateDocketItemExistingRatesLookupTemplateInput!): String!
+  generateDocketItemNewRatesLookupTemplate(ProjectID: ID!): String!
+  generateMaterialDocketImportTemplate(ProjectID: ID!, SupplierID: ID!): String!
+  generateSORItemExistingRatesLookupTemplate(input: GenerateSORItemExistingRatesLookupTemplateInput!): String!
+  generateSORItemNewRatesLookupTemplate(ProjectID: ID!): String!
+  getAccessibleProjects(IsActiveOnly: Boolean, IsAllowMap: Boolean, filter: String, pagination: Pagination): ProjectPaginatedResponse!
+  getAllCompanies(IsActive: Boolean): [Company!]!
+  getAllProjects(CompanyID: ID, IsActiveOnly: Boolean, filter: String, pagination: Pagination): ProjectPaginatedResponse!
+  getAvailableDocketStructurePeople(ExcludedPersonIDs: [ID!], ProjectCostCentreIDs: [ID!], ProjectID: ID!, RoleName: String!): [Person!]!
+  getAvailableEngineerInDocket(IsAllProjectDocket: Boolean, ProjectID: ID!, filter: String, status: String): [Person!]!
+  getAvailableEngineerInSOR(IsAllProjectSOR: Boolean, ProjectID: ID!, filter: String, status: String): [Person!]!
+  getAvailableFinanceSystems: [String!]!
+  getAvailableForemanInDocket(IsAllProjectDocket: Boolean, ProjectID: ID!, filter: String, status: String): [Person!]!
+  getAvailableForemanInSOR(IsAllProjectSOR: Boolean, ProjectID: ID!, filter: String, status: String): [Person!]!
+  getAvailableItemCodesInDocketRateItem(ProjectID: ID): [String!]!
+  getAvailableItemCodesInDocketRateItemGroup(ProjectID: ID): [String!]!
+  getAvailableItemCodesInSORItem(ProjectID: ID): [String!]!
+  getAvailableLocationNamesInMyRequisition(IsAllProjectRequisition: Boolean, ProjectID: ID, RequisitionStatus: String, RequisitionType: String, filter: String): [String!]!
+  getAvailablePersonsInDocket(ProjectID: ID, filter: String, pagination: Pagination): PersonPaginatedResponse!
+  getAvailablePersonsInSOR(ProjectID: ID, filter: String, pagination: Pagination): PersonPaginatedResponse!
+  getAvailablePrimaryItemInSOR(IsAllProjectSOR: Boolean, ProjectID: ID!, filter: String, status: String): [SORItem!]!
+  getAvailableRequisitionStatusesInMyApproval(ProjectID: ID, RequisitionStatus: String, RequisitionType: String, filter: String): [String!]!
+  getAvailableRequisitionStatusesInMyRequisition(IsAllProjectRequisition: Boolean, ProjectID: ID, RequisitionStatus: String, RequisitionType: String, filter: String): [String!]!
+  getAvailableRequisitionTypesInMyApproval(ProjectID: ID, RequisitionStatus: String, filter: String): [String!]!
+  getAvailableRequisitionTypesInRequisition(IsAllProjectRequisition: Boolean, ProjectID: ID, RequisitionStatus: String, filter: String): [String!]!
+  getAvailableSORUnitInSORItem(ProjectID: ID): [SORUnit!]!
+  getAvailableStatusesInDocket(DocketStatus: String, IsAllProjectDocket: Boolean, ProjectID: ID, filter: String): [DocketStatus!]
+  getAvailableStatusesInSOR(IsAllProjectSOR: Boolean, ProjectID: ID, SORStatus: String, filter: String): [SORStatus!]
+  getAvailableSupplierSummariesInMyApproval(ProjectID: ID!, RequisitionStatus: String, RequisitionType: String, filter: String): [SupplierSummary!]!
+  getAvailableSupplierSummariesInRequisition(IsAllProjectRequisition: Boolean, ProjectID: ID!, RequisitionStatus: String, RequisitionType: String, filter: String): [SupplierSummary!]!
+  getAvailableSuppliersInDocket(ProjectID: ID, filter: String, pagination: Pagination, status: String): SupplierPaginatedResponse!
+  getAvailableSuppliersInDocketRateItem(ProjectID: ID, filter: String, pagination: Pagination): SupplierPaginatedResponse!
+  getAvailableSuppliersInDocketRateItemGroup(ProjectID: ID, filter: String, pagination: Pagination): SupplierPaginatedResponse!
+  getAvailableSuppliersInSOR(ProjectID: ID, filter: String, pagination: Pagination, status: String): SupplierPaginatedResponse!
+  getAvailableSuppliersInSORItem(ProjectID: ID, filter: String, pagination: Pagination): SupplierPaginatedResponse!
+  getAvailableSuppliersInSupplierContract(ProjectID: ID!, filter: String, pagination: Pagination): SupplierPaginatedResponse!
+  getAvailableTypesInDocketRateItem(ProjectID: ID): [DocketRateItemType!]!
+  getAvailableTypesInDocketRateItemGroup(ProjectID: ID): [DocketRateItemType!]!
+  getAvailableUOMsInDocketRateItem(ProjectID: ID): [DocketRateUnitOfMeasurement!]!
+  getAvailableWeighBridgeDefaultSetting: [WeighbridgeBreakSettingDefault!]!
+  getCORPrintingTemplate(DocketID: ID!): PrintingTemplate!
+  getCompanies: [Company!]!
+  getCompaniesCanCreateProject: [Company!]!
+  getCostCodeSummary(ProjectID: ID!, input: [CostCodeSummaryInput!]!): [CostCodeSummary!]
+  getCurrentWeighBridgeBreakSection(DocketID: ID!): DocketBreak
+  getCurrentWeighBridgeBreakSetting(ProjectID: ID!): WeighBridgeBreakSetting
+  getCurrentWeighBridgeDocket(ForNavigator: Boolean): Docket
+  getDocketAttachmentRemark(DocketID: ID!): [DocketAttachment!]!
+  getDocketCostingApproval(DocketID: ID!): Docket!
+  getDocketDetail(DocketID: ID): Docket!
+  getDocketDetailSummaryItems(DocketID: ID!): [DocketDetailItemSummary!]
+  getDocketInternalComment(DocketID: ID!): DocketRemark
+  getDocketStructuresMissingRoles(ProjectID: ID!): [Role!]
+  getDocketSummary(DocketID: ID!): Docket!
+  getDocketTagPhoto(DocketID: ID!): Docket!
+  getEmployeeBenefitCategories: [EmployeeBenefitCategory!]!
+  getExternalPeopleAvailableForRecordDaily(ScheduleOfRateID: ID!): [SORCrewMemberDetail!]!
+  getExternalProjectStaff(IsActive: Boolean, PersonTypes: [String!], ProjectID: ID!): [ExternalPerson!]!
+  getFile(fileKey: String!): FileDetail!
+  getGpsDefaultConfigs: [SystemConfigInterface!]!
+  getLocationTypes: [String!]!
+  getMechanicPerson(filter: String): [Person!]!
+  getMobileVersionConfigurations: [MVC!]!
+  getMultipleFile(fileKeys: [String!]!): [FileDetail!]!
+  getPaginatedApprover(ID: String, filter: String, pagination: Pagination): ApproversPaginatedResponse!
+  getPagingDocketHistories(DocketID: ID!, filter: String, pagination: Pagination, sorter: Sorter): DocketStatusHistoryPaginatedResponse!
+  getPagingDocketRateItemGroups(ProjectID: ID!, filterObject: DocketRateItemGroupFilterObject, pagination: Pagination, sorter: Sorter, supplierID: ID): DocketRateItemGroupPaginatedResponse
+  getPagingDocketRateItemView(IsAllProjectDocket: Boolean, ItemTypes: [String!], ProjectID: ID!, corFilter: DocketRateItemViewCorFilter, filter: String, pagination: Pagination, status: String, supplierID: ID): DocketRateItemViewPaginatedResponse!
+  getPagingDocketRateItems(ProjectID: ID!, UOMs: [String!], filter: String, filterObject: DocketRateItemFilterObject, forCreateDocket: Boolean, itemTypes: [String!], omitIDs: [ID!], pagination: Pagination, sorter: Sorter, supplierID: ID): DocketRateItemPaginatedResponse
+  getPagingDocketSiteEvents(DocketID: ID, filter: String, pagination: Pagination, sorter: Sorter): DocketSiteEventRequestPaginatedResponse!
+  getPagingDocketStructures(IsIncludedInactive: Boolean, ProjectID: ID!, filter: String, pagination: Pagination, roleNames: [String!], sorter: Sorter): DocketApproverHierarchyPaginatedResponse
+  getPagingDockets(IsAllProjectDocket: Boolean, ProjectID: ID!, filter: String, filterObject: DocketFilterObject, pagination: Pagination, sorter: Sorter, status: String): DocketPaginatedResponse
+  getPagingEmployeeBenefits(IsActive: Boolean, employeeBenefitCategoryID: ID, filter: String, pagination: Pagination, sorter: Sorter): EmployeeBenefitPaginatedResponse!
+  getPagingExternalPeoples(IsActiveOnly: Boolean, PersonType: String, SupplierID: ID, filter: String, pagination: Pagination): ExternalPeoplePaginatedResponse!
+  getPagingInternalAndExternalPersons(filter: String, pagination: Pagination, sorter: Sorter): PersonPaginatedResponse!
+  getPagingInternalPerson(IsActiveOnly: Boolean, filter: String, pagination: Pagination, sorter: Sorter): InternalPeoplePaginatedResponse!
+  getPagingMyDockets(pagination: Pagination): DocketPaginatedResponse!
+  getPagingMyRequisitionApprovals(ProjectID: ID!, RequisitionStatus: String, filterObject: RequisitionFilterObject, pagination: Pagination, sorter: Sorter): RequisitionViewPaginatedResponse!
+  getPagingMyRequisitions(AllProjectRequisition: Boolean, IsExcludeRejected: Boolean, ProjectID: ID!, RequisitionStatus: String, filter: String, filterObject: RequisitionFilterObject, pagination: Pagination, sorter: Sorter): RequisitionViewPaginatedResponse!
+  getPagingPerson(IsInternalPerson: Boolean!, filter: String, pagination: Pagination, sorter: Sorter): PersonPaginatedResponse!
+  getPagingProjectMaterials(IsOnlyActive: Boolean, ProjectID: ID!, filter: String, pagination: Pagination!, sorter: Sorter): ProjectMaterialPaginatedResponse!
+  getPagingProjectStaffs(ProjectID: ID!, filter: String, forApproverAccess: Boolean, forGisSetting: Boolean, pagination: Pagination, sorter: Sorter): PersonPaginatedResponse!
+  getPagingRequisitionPurchaseItems(RequisitionID: ID!, pagination: Pagination, sorter: Sorter): RequisitionItemPaginatedResponse!
+  getPagingRequisitionSupplyAgreements(ProjectID: ID!, filter: String, pagination: Pagination, sorter: Sorter): RequisitionApproverHierarchyPaginatedResponse
+  getPagingSORHistories(ScheduleOfRateID: ID!, filter: String, pagination: Pagination, sorter: Sorter): SORStatusHistoryPaginatedResponse!
+  getPagingSORItems(ProjectID: ID!, filter: String, filterObject: SORItemFilterObject, forCreateSOR: Boolean, itemTypes: [String!], omitIDs: [ID!], pagination: Pagination, sorter: Sorter, supplierID: ID): SORItemPaginatedResponse
+  getPagingSORRecordDetails(ScheduleOfRateID: ID!, pagination: Pagination): SORRecordDetailPaginatedResponse!
+  getPagingSORStructures(IsIncludedInactive: Boolean, ProjectID: ID!, filter: String, pagination: Pagination, roleNames: [String!], sorter: Sorter): DocketApproverHierarchyPaginatedResponse
+  getPagingSORs(IsAllProjectSOR: Boolean, ProjectID: ID!, filter: String, filterObject: SORFilterObject, pagination: Pagination, sorter: Sorter, status: String): SORPaginatedResponse
+  getPagingSiteEvents(ProjectID: ID, filter: String, filterStatus: String, ownerPost: Boolean, pagination: Pagination, sorter: Sorter): SiteEventRequestPaginatedResponse!
+  getPagingSubbieRecords(pagination: Pagination): SubbieRecordViewPaginationResponse!
+  getPagingSummaryRequisitions(ProjectID: ID, filterObject: RequisitionFilterObject, pagination: Pagination, sorter: Sorter): RequisitionViewPaginatedResponse!
+  getPagingSupplierContractSetUp(IsActiveOnly: Boolean, ProjectID: ID, filter: String, filterObject: SupplierContractFilterObject, pagination: Pagination): SupplierContractSetUpPaginationResponse!
+  getPagingWeighBridgeDockets(ProjectID: ID, filter: String, filterObject: DocketWeighBridgeFilterObject, pagination: Pagination, sorter: Sorter): DocketPaginatedResponse!
+  getPayrollLocationTypes: [String!]!
+  getPerson(PersonID: ID!): Person!
+  getProject(ProjectID: ID!): Project!
+  getProjectClients(ProjectID: ID!): [ProjectClient!]!
+  getProjectDetail(ProjectID: ID!): ProjectDetail
+  getProjectExternalPlant(IsActive: Boolean, ProjectID: ID!): [ExternalPlant!]!
+  getProjectInternalPlants(IsActive: Boolean, ProjectID: ID!, filter: String): [InternalPlant!]!
+  getProjectLocations(IsExcludeWFHLocation: Boolean, IsIncludeGlobalLocation: Boolean, IsOnlyActive: Boolean, LocationType: String, ProjectID: ID!, filter: String): [ProjectLocation!]!
+  getRecentPlantRateByProject(InternalPlantID: ID!, ProjectID: ID!): Float!
+  getRequisitionCostCentre(ProjectID: ID!): [ProjectCostCentre!]
+  getRequisitionPurchase(RequisitionID: ID!): RequisitionPurchaseDetail
+  getRequisitionWorkflowStatusHistory(RequisitionID: ID!): [RequisitionWorkflowStatus!]
+  getSORApproverHierarchy(IsIncludedInactive: Boolean, ProjectID: ID!, filter: String, roleNames: [String!]): [SORApproverHierarchy!]
+  getSORApproversForSubbieApp(ProjectID: ID!, filter: String, pagination: Pagination, roleNames: [String!]): PersonPaginatedResponse!
+  getSORCostingApproval(SORID: ID!): ScheduleOfRate!
+  getSORPhotoAndRemark(ScheduleOfRateID: ID!): ScheduleOfRate!
+  getSORRecordDetail(SORRecordDetailID: ID!): SORRecordDetail!
+  getSORStructuresMissingRoles(ProjectID: ID!): [Role!]
+  getScheduleOfRateDetail(ScheduleOfRateID: ID!): ScheduleOfRate!
+  getSorCrewMembers(ProjectID: ID!, SORRecordDetailID: ID!): [SORCrewMemberDetail!]!
+  getSubcontractorDocketDefault: SubcontractorDocketDefault
+  getSystemConfigurations: [SystemConfiguration!]!
+  getTodayFirstWeighBridgeDocket: Docket
+  getUnassignedProjects(IsActiveOnly: Boolean, NotIncludeProjectIDs: [ID!], PersonID: ID!, filter: String, pagination: Pagination): ProjectPaginatedResponse!
+  getUnfavouriteProjects(filter: String, pagination: Pagination): ProjectPaginatedResponse!
+  getUserRoleCompanyAccess(CompanyID: ID, PersonID: ID!, privileges: [String!]): [UserCompanyAccess!]!
+  getUserRoleDocketAccess(PersonID: ID!, ProjectID: ID): [DocketApproverHierarchy!]!
+  getUserRoleMapAccess(PersonID: ID!, ProjectID: ID): [UserMapAccess!]!
+  getUserRoleProjectAccess(PersonID: ID!, ProjectID: ID): [UserProjectAccess!]!
+  getUserRoleSORAccess(PersonID: ID!, ProjectID: ID): [SORApproverHierarchy!]!
+  getUserRoleSupplyAgreementAccess(PersonID: ID!, ProjectID: ID): [RequisitionApproverHierarchy!]
+  getUserTimeSheetDefault: UserTimesheetDefault!
+  getWeighBridgeDocketSummary(DocketID: ID!): Docket
+  getWeighBridgeDumpSummary(DocketID: ID!): DocketWeighBridgeDetail
+  getWeighBridgeNextBreakTime: DocketWeighBridgeNextBreakDetail
+  hasStartCOR: Boolean!
+  hasWeighBridgeDocket: Boolean!
+  personInfo(supplierCode: String): Person!
+  personalSafetyChecklist(DocketID: ID!): [PersonalSafetyChecklist!]!
+  personalSafetyQuestionList(QuestionFor: [String!]): [PersonalSafetyQuestionList!]!
+  plantSafetyChecklist(DocketID: ID!): [PlantSafetyChecklist!]!
+  plantSafetyQuestionList(QuestionFor: [String!]): [PlantSafetyQuestionList!]!
+  projectCostCentres(EngineerID: ID, ForDocketApproval: Boolean, ForRequisitionSupplyAgreement: Boolean, ForSORApproval: Boolean, IsActiveOnly: Boolean, IsFilterUnusedCostCodeBySupplyAgreement: Boolean, PersonID: ID, ProjectID: ID!, RequisitionThresholdID: ID): [ProjectCostCentre!]!
+  projects(IsActiveOnly: Boolean, SOREnabled: Boolean, SupplierID: ID, docketEnabled: Boolean, externalTimesheetEnabled: Boolean, filter: String, forDashboardOnly: Boolean, forSubbieDocket: Boolean, forSubbieSOR: Boolean, forSubbieTimesheet: Boolean, pagination: Pagination, privileges: [String!], removeIsClose: Boolean, requisitionEnabled: Boolean, staffTimesheetEnabled: Boolean): ProjectPaginatedResponse!
+  sorItem(ID: ID!): SORItem
+  sorPersonalSafetyQuestionList(QuestionFor: [String!]): [PersonalSafetyQuestionList!]!
+  sorPlantSafetyQuestionList(QuestionFor: [String!]): [PlantSafetyQuestionList!]!
+  sorStatuses(ForStatusBar: Boolean, IsAllProjectSOR: Boolean, ProjectID: ID): [SORStatus!]!
+  sorUnit: [SORUnit!]!
+  timesheetByID(TimesheetID: ID!): Timesheet!
+  timesheetSummaries(EndDate: Date, StartDate: Date, WorkDate: Date): [TimesheetSummary!]!
+  timesheets(WorkDate: Date!): [Timesheet!]!
+  totalTimeTimesheets(EndDate: Date!, StartDate: Date!): HourMinItem!
+  useractivities: [UserActivity!]!
+}
+
+type Requisition {
+  CreatedDate: DateTime
+  DeliveryDate: DateTime!
+  DeliveryLocation: String
+  Description: String
+  ID: ID!
+  PreRequisitionID: ID
+  ProjectCostCentreID: ID
+  ProjectID: ID!
+  RequisitionStatusID: ID!
+  RequisitionType: String!
+  SeoOrderNumber: String
+  SiteContact: String
+  SubmittedBy: ID!
+  SubmittedDate: Date!
+  SupplierContactDetail: String
+  SupplierID: ID
+  SupplierName: String!
+  SupplierOtherDetail: String
+  UpdatedBy: ID
+  numberOfQuotes: Float
+  preRequisition: PreRequisition
+  project: Project
+  projectCostCentre: ProjectCostCentre
+  requisitionItems: [RequisitionItems!]
+  requisitionLabourWetHireDetail: RequisitionLabourWetHireDetail
+  requisitionPurchaseDetail: RequisitionPurchaseDetail
+  requisitionQuotes: [RequisitionQuotes!]
+  requisitionStatus: RequisitionStatus!
+  requisitionSupplyMaterialDetail: RequisitionSupplyMaterialDetail
+  requisitionWorkflowStatus: [RequisitionWorkflowStatus!]
+  submittedBy: Person!
+  supplier: Supplier
+  totalAmount: Float
+  updatedBy: Person
+}
+
+type RequisitionActivity {
+  ActivityCode: String!
+  ActivityName: String!
+  ActivityType: ID!
+  ID: ID!
+  IsActive: Boolean!
+}
+
+type RequisitionActivityType {
+  ActivityCode: String!
+  ActivityType: String!
+  ID: ID!
+  SourceSystem: String
+}
+
+type RequisitionApprovalAmount {
+  CreatedBy: Float
+  CreatedDate: DateTime
+  ID: ID!
+  MissingCostCode: Boolean
+  MissingRoles: [String!]
+  ModifiedBy: Float
+  ModifiedDate: DateTime
+  ProjectID: ID!
+  RangeFrom: Float!
+  userRequisitionAccess: [UserRequisitionAccess!]
+}
+
+type RequisitionApproverHierarchy {
+  CreatedDate: DateTime
+  ID: ID!
+  InactivedDate: DateTime
+  IsActive: Boolean
+  PersonID: ID!
+  ProjectCostCentreID: ID
+  ProjectID: ID!
+  RoleID: ID!
+  person: Person
+  project: Project
+  projectCostCentre: ProjectCostCentre
+  role: Role
+}
+
+input RequisitionApproverHierarchyInput {
+  ID: ID
+  IsActive: Boolean
+  PersonID: ID!
+  ProjectCostCentreID: ID
+  ProjectID: ID!
+  RoleID: ID!
+}
+
+type RequisitionApproverHierarchyPaginatedResponse {
+  items: [RequisitionApproverHierarchy!]!
+  pagination: PaginationResponse
+}
+
+type RequisitionBooking {
+  CreatedDate: DateTime
+  ID: ID!
+}
+
+input RequisitionFilterObject {
+  DeliveryDate: DateFilter
+  Description: String
+  LocationNames: [String!]
+  NoOfQuotes: Int
+  PreRequisitionID: ID
+  RequisitionBookingID: ID
+  RequisitionID: ID
+  RequisitionStatusNames: [String!]
+  RequisitionTypes: [String!]
+  SEOOrderNumber: String
+  SubmittedDate: DateFilter
+  SupplierNames: [String!]
+  TotalRequisitionValue: TotalRequisitionValueFilter
+}
+
+type RequisitionItemPaginatedResponse {
+  items: [RequisitionItems!]!
+  pagination: PaginationResponse
+}
+
+type RequisitionItems {
+  ActivityItemName: String
+  CreatedDate: DateTime
+  ID: ID!
+  ProjectCostCentreID: ID
+  Quantity: Float
+  Rate: Float
+  RequisitionActivityID: ID
+  RequisitionActivityTypeID: ID
+  RequisitionID: ID!
+  ResourceCategoryID: ID
+  UnitID: ID!
+  projectCostCentre: ProjectCostCentre
+  requisition: Requisition!
+  requisitionActivity: RequisitionActivity
+  requisitionActivityType: RequisitionActivityType
+  requisitionUnit: RequisitionUnit!
+  resourceCategory: ResourceCategory
+}
+
+input RequisitionItemsInput {
+  ActivityItemName: String!
+  ID: ID
+  ProjectCostCentreID: ID
+  Quantity: Float
+  Rate: Float!
+  RequisitionActivityID: ID
+  RequisitionActivityTypeID: ID
+  UnitID: ID!
+}
+
+type RequisitionLabourWetHireAllowanceRule {
+  ApplicableAfterHours: Float!
+  ID: ID!
+  Rate: Float!
+  RequisitionLabourWetHireDetailID: ID!
+  RequisitionRateItemID: ID!
+  RequisitionUnitID: ID!
+  requisitionLabourWetHireDetail: RequisitionLabourWetHireDetail
+  requisitionRateItem: RequisitionRateItem
+  requisitionUnit: RequisitionUnit
+}
+
+type RequisitionLabourWetHireAttachment {
+  CreatedDate: DateTime
+  ID: ID!
+  RequisitionLabourWetHireDetailID: ID!
+  RequisitionRateItemID: ID!
+  requisitionLabourWetHire: RequisitionLabourWetHireDetail
+  requisitionLabourWetHireAttachmentItemRate: RequisitionLabourWetHireAttachmentItemRate
+  requisitionRateItem: RequisitionRateItem
+}
+
+type RequisitionLabourWetHireAttachmentItemRate {
+  ID: ID!
+  Rate: Float!
+  RequisitionLabourWetHireAttachmentID: ID!
+  RequisitionRateItemID: ID!
+  RequisitionUnitID: ID!
+  requisitionLabourWetHireAttachment: RequisitionLabourWetHireAttachment!
+  requisitionRateItem: RequisitionRateItem
+  requisitionUnit: RequisitionUnit
+}
+
+type RequisitionLabourWetHireAttachmentRule {
+  Description: String!
+  ID: ID!
+  Rate: Float!
+  RequisitionLabourWetHireDetailID: ID!
+  RequisitionRateItemID: ID!
+  RequisitionUnitID: ID!
+  requisitionLabourWetHireDetail: RequisitionLabourWetHireDetail
+  requisitionRateItem: RequisitionRateItem
+  requisitionUnit: RequisitionUnit
+}
+
+type RequisitionLabourWetHireBaseRule {
+  ID: ID!
+  RangeFrom: Float!
+  RangeTo: Float
+  Rate: Float!
+  RequisitionLabourWetHireDetailID: ID!
+  RequisitionRateItemID: ID!
+  RequisitionUnitID: ID!
+  requisitionLabourWetHireDetail: RequisitionLabourWetHireDetail
+  requisitionRateItem: RequisitionRateItem
+  requisitionUnit: RequisitionUnit
+}
+
+type RequisitionLabourWetHireDetail {
+  CreatedDate: DateTime
+  ID: ID!
+  OrderDetail: String!
+  ProjectCostCentreID: ID!
+  ProjectLocationID: ID!
+  Quantity: Float!
+  RequisitionBookingID: ID!
+  RequisitionID: ID!
+  RequisitionRateItemGroupID: ID!
+  ShiftDuration: Float!
+  ShiftStartTime: Time!
+  StartDate: Date!
+  SupplierAggrementID: ID!
+  SupplierID: ID!
+  TotalValue: Float!
+  projectCostCentre: ProjectCostCentre
+  projectLocation: ProjectLocation
+  requisition: Requisition
+  requisitionBooking: RequisitionBooking
+  requisitionLabourWetHireAllowanceRules: [RequisitionLabourWetHireAllowanceRule!]
+  requisitionLabourWetHireAttachmentRules: [RequisitionLabourWetHireAttachmentRule!]
+  requisitionLabourWetHireAttachments: [RequisitionLabourWetHireAttachment!]
+  requisitionLabourWetHireBaseRules: [RequisitionLabourWetHireBaseRule!]
+  requisitionLabourWetHirePhotos: [RequisitionLabourWetHirePhotos!]
+  requisitionRateItemGroup: RequisitionRateItemGroup
+  supplier: Supplier
+  supplierContractSetUp: SupplierContractSetUp
+}
+
+type RequisitionLabourWetHirePhotos {
+  CreatedDate: DateTime
+  ID: ID!
+  PhotoPath: String!
+  RequisitionLabourWetHireDetailID: ID!
+  requisitionLabourWetHire: RequisitionLabourWetHireDetail
+}
+
+type RequisitionPurchaseApproverDetail {
+  ApproverPersonID: ID!
+  ApproverStatusID: ID
+  CreatedDate: DateTime
+  ID: ID!
+  IsAutoAccepted: Boolean!
+  IsFinalApproval: Boolean!
+  IsRowApproved: Boolean!
+  MaxApprovalAmount: Float!
+  RequisitionID: ID!
+  SequenceNo: Float!
+  approverPerson: Person
+  approverStatus: RequisitionStatus
+  requisition: RequisitionView
+  status: String
+}
+
+input RequisitionPurchaseCreateInput {
+  ID: ID
+  PreRequisitionID: ID
+  requisitionItemsInputs: [RequisitionItemsInput!]
+  requisitionQuotesInputs: [RequisitionQuotesInput!]!
+  requisitionStatusInput: RequisitionStatusInput
+  requisitionSupplierAndDeliveryInput: RequisitionSupplierAndDeliveryInput!
+}
+
+type RequisitionPurchaseDetail {
+  Budget: Float
+  CreatedDate: DateTime
+  FootNotes: String
+  ID: ID!
+  ProjectLocationID: ID!
+  RequisitionActivityID: ID
+  RequisitionActivityTypeID: ID
+  RequisitionID: ID!
+  ResourceCategoryID: ID
+  projectLocation: ProjectLocation!
+  requisition: Requisition
+  requisitionActivity: RequisitionActivity
+  requisitionActivityType: RequisitionActivityType
+  resourceCategory: ResourceCategory
+}
+
+type RequisitionQuotes {
+  Comments: String
+  CreatedDate: DateTime
+  FileData: String!
+  ID: ID!
+  RequisitionID: ID!
+}
+
+input RequisitionQuotesInput {
+  Comments: String!
+  FileData: String!
+  ID: ID
+}
+
+type RequisitionRateItem {
+  CreateRequisition: Boolean!
+  CreatedDate: DateTime
+  ID: ID!
+  ItemCode: String!
+  ItemDescription: String!
+  ModifiedDate: DateTime
+  ProjectID: ID!
+  Rate: Float!
+  RequisitionTypeID: ID!
+  RequisitionUnitID: ID!
+  SpecializedMaterialID: ID
+  SupplierAggrementID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  project: Project
+  requisitionRateItemGroupAllowanceRules: [RequisitionRateItemGroupAllowanceRule!]
+  requisitionRateItemGroupAttachmentRules: [RequisitionRateItemGroupAttachmentRule!]
+  requisitionSpecializedMaterial: RequisitionSpecializedMaterial
+  requisitionType: RequisitionType
+  requisitionUnit: RequisitionUnit
+  supplierContractSetUp: SupplierContractSetUp
+}
+
+type RequisitionRateItemGroup {
+  CreateRequisition: Boolean!
+  CreatedDate: DateTime
+  ID: ID!
+  ItemGroupCode: String!
+  ItemGroupDescription: String!
+  ModifiedDate: DateTime
+  ProjectID: ID!
+  RequisitionTypeID: ID
+  SupplierAggrementID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  project: Project
+  requisitionRateItemGroupAllowanceRules: [RequisitionRateItemGroupAllowanceRule!]
+  requisitionRateItemGroupAttachmentRules: [RequisitionRateItemGroupAttachmentRule!]
+  requisitionRateItemGroupBaseRules: [RequisitionRateItemGroupBaseRule!]
+  requisitionType: RequisitionType
+  supplierContractSetUp: SupplierContractSetUp
+}
+
+type RequisitionRateItemGroupAllowanceRule {
+  ApplicableAfterHours: Float!
+  CreatedDate: DateTime
+  ID: ID!
+  ModifiedDate: DateTime
+  RequisitionRateItemGroupID: ID!
+  RequisitionRateItemID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  requisitionRateItem: RequisitionRateItem
+  requisitionRateItemGroup: RequisitionRateItemGroup
+}
+
+type RequisitionRateItemGroupAttachmentRule {
+  CreatedDate: DateTime
+  Description: String!
+  ID: ID!
+  ModifiedDate: DateTime
+  RequisitionRateItemGroupID: ID!
+  RequisitionRateItemID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  requisitionRateItem: RequisitionRateItem
+  requisitionRateItemGroup: RequisitionRateItemGroup
+}
+
+type RequisitionRateItemGroupBaseRule {
+  CreatedDate: DateTime
+  ID: ID!
+  IsLastSequenceNo: Boolean!
+  ModifiedDate: DateTime
+  RangeFrom: Float!
+  RangeTo: Float
+  RequisitionRateItemGroupID: ID!
+  RequisitionRateItemID: ID!
+  SequenceNo: Float!
+  createdBy: Person
+  modifiedBy: Person
+  requisitionRateItem: RequisitionRateItem
+  requisitionRateItemGroup: RequisitionRateItemGroup
+}
+
+type RequisitionSpecializedMaterial {
+  ID: ID!
+  SpecializedMaterial: String!
+}
+
+type RequisitionStatus {
+  BriefStatus: String!
+  ID: ID!
+  Name: String!
+  role: [Role!]
+}
+
+type RequisitionStatusByRole {
+  ID: ID!
+  RequisitionStatusID: String!
+  RoleID: ID!
+  requisitionStatus: RequisitionStatus
+  role: Role
+}
+
+input RequisitionStatusInput {
+  FromStatusID: ID
+  Notes: String
+  RequisitionID: ID
+  SeoOrderNumber: String
+  ToStatusID: ID
+}
+
+input RequisitionSupplierAndDeliveryInput {
+  Budget: Float!
+  DeliveryDate: Date!
+  DeliveryLocation: String!
+  Description: String
+  FootNotes: String
+  ProjectCostCentreID: ID
+  ProjectID: ID!
+  ProjectLocationID: ID
+  RequisitionActivityID: ID
+  RequisitionActivityTypeID: ID
+  SiteContact: String!
+  SupplierContactDetail: String
+  SupplierID: ID
+  SupplierName: String!
+  SupplierOtherDetail: String
+}
+
+type RequisitionSupplyMaterialAttachments {
+  Comment: String
+  CreatedDate: DateTime
+  ID: ID!
+  ImagePath: String!
+  RequisitionSupplyMaterialDetailID: Float!
+}
+
+type RequisitionSupplyMaterialDetail {
+  CostItem: String
+  CreatedDate: DateTime
+  DeliveryOrderNotes: String
+  Event: String
+  ID: ID!
+  LotNumber: String!
+  ProjectLocationID: ID!
+  RequisitionContact: String!
+  RequisitionID: ID!
+  SupplierAgreementID: ID!
+  TotalValue: Float!
+  projectLocation: ProjectLocation
+  requisition: Requisition
+  requisitionSupplyMaterialAttachments: [RequisitionSupplyMaterialAttachments!]
+  requisitionSupplyMaterialItems: [RequisitionSupplyMaterialItems!]
+  supplierContractSetUp: SupplierContractSetUp
+}
+
+type RequisitionSupplyMaterialItems {
+  Comments: String
+  CreatedDate: DateTime
+  Events: String
+  ID: ID!
+  IsSpecializedMaterialMessage: Boolean
+  Quantity: Float!
+  RequisitionRateItemGroupID: ID
+  RequisitionRateItemID: ID
+  RequisitionSupplyMaterialDetailID: ID!
+  RequisitionUnitID: ID!
+  TruckSpacing: String
+  Value: Float!
+  requisitionRateItem: RequisitionRateItem
+  requisitionRateItemGroup: RequisitionRateItemGroup
+  requisitionSupplyMaterialDetail: RequisitionSupplyMaterialDetail
+  requisitionUnit: RequisitionUnit
+}
+
+type RequisitionType {
+  Description: String!
+  GroupDescription: String
+  ID: ID!
+  Name: String!
+  requisitionRateItemGroups: [RequisitionRateItemGroup!]
+  requisitionUnits: [RequisitionUnit!]
+}
+
+type RequisitionUnit {
+  Code: String!
+  Description: String!
+  ID: ID!
+  requisitionTypes: [RequisitionType!]
+}
+
+type RequisitionView {
+  DeliveryDate: Date
+  Description: String
+  ID: ID!
+  LocationName: String!
+  PreRequisitionID: ID
+  ProjectCostCentreID: ID
+  ProjectID: ID
+  QuotesCount: Float
+  RequisitionBookingID: ID
+  RequisitionBriefStatus: String!
+  RequisitionStatusName: String!
+  RequisitionType: String
+  ResourceCategoryID: ID
+  SeoOrderNumber: String
+  SubmittedBy: ID
+  SubmittedDate: Date!
+  SupplierCode: String
+  SupplierName: String
+  TotalAmount: Float
+  preRequisition: PreRequisition
+  requisitionItems: [RequisitionItems!]
+  requisitionLabourWetHireDetail: RequisitionLabourWetHireDetail
+  requisitionPurchaseApproverDetails: [RequisitionPurchaseApproverDetail!]
+  requisitionPurchaseDetail: RequisitionPurchaseDetail
+}
+
+type RequisitionViewPaginatedResponse {
+  items: [RequisitionView!]!
+  pagination: PaginationResponse
+}
+
+type RequisitionWorkflowStatus {
+  CreatedDate: DateTime
+  FromStatusID: ID
+  ID: ID!
+  Notes: String!
+  RequisitionID: ID!
+  StatusBy: ID!
+  StatusByRoleID: ID
+  ToStatusID: ID!
+  fromStatus: RequisitionStatus
+  statusBy: Person!
+  statusByRole: RequisitionStatusByRole
+  toStatus: RequisitionStatus!
+}
+
+type ResourceCategory {
+  Code: String!
+  Description: String!
+  ID: ID!
+}
+
+type Role {
+  CompanyLevelRole: Boolean!
+  Description: String!
+  DocketRole: Boolean!
+  ExternalRole: Boolean!
+  GISRole: Boolean
+  GlobalRole: Boolean!
+  ID: ID!
+  InternalRoleADFSCheck: String!
+  JobManagementAllow: Boolean!
+  Name: String!
+  ProjectLevelRole: Boolean!
+  RequisitionRole: Boolean!
+  SORRole: Boolean!
+  SupplierAgreementRole: Boolean
+  SupplierRole: Boolean
+  persons: [Person!]
+  privileges: [Privilege!]
+}
+
+type SORApprovalCostCode {
+  CostCodeAmount: Float
+  CostCodePercentage: Float
+  CostCodeQuantity: Float!
+  CreatedDate: DateTime
+  ID: ID!
+  ProjectCostCentreID: ID!
+  SORPayItemApprovalID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  projectCostCentre: ProjectCostCentre
+  sorPayItemApprovalDetail: SORPayItemApprovalDetail
+}
+
+input SORApprovalCostCodeInput {
+  CostCodeAmount: Float
+  CostCodeQuantity: Float
+  ID: ID
+  ProjectCostCentreID: ID
+}
+
+type SORApprovalDetail {
+  CreatedDate: DateTime
+  EngineerComment: String
+  EngineerID: ID!
+  ForemanID: ID!
+  ID: ID!
+  SORStatusID: ID!
+  ScheduleOfRateID: ID!
+  createdBy: Person
+  engineer: Person
+  foreman: Person
+  modifiedBy: Person
+  scheduleOfRate: ScheduleOfRate
+  sorPayItemApprovalDetails: [SORPayItemApprovalDetail!]!
+  sorStatus: SORStatus
+}
+
+type SORApproverHierarchy {
+  CreatedDate: DateTime
+  ID: ID!
+  InactivedDate: DateTime
+  IsActive: Boolean
+  PersonID: ID!
+  ProjectCostCentreID: ID
+  ProjectID: ID!
+  RoleID: ID!
+  person: Person
+  project: Project
+  projectCostCentre: ProjectCostCentre
+  role: Role
+}
+
+input SORApproverHierarchyInput {
+  ID: ID
+  IsActive: Boolean
+  PersonID: ID!
+  ProjectCostCentreID: ID
+  RoleID: ID!
+}
+
+input SORBreakDetailInput {
+  BreakType: String!
+  Duration: Float!
+  SORCrewMemberBreakID: ID
+}
+
+input SORCostingApprovalInput {
+  EngineerComment: String
+  SORApprovalDetailID: ID
+  SubmittedStatusID: ID
+  sorPayItemApprovalDetailInputs: [SORPayItemApprovalDetailInput!]
+}
+
+type SORCrewMemberBreakDetail {
+  BreakType: String!
+  CreatedBy: ID!
+  CreatedDate: DateTime
+  Duration: Float!
+  ID: ID!
+  ModifiedBy: ID!
+  SORCrewMemberDtlID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  sorCrewMemberDetail: SORCrewMemberDetail
+}
+
+type SORCrewMemberDetail {
+  CreatedBy: ID!
+  CreatedDate: DateTime
+  CrewMemberID: ID!
+  FinishTime: Time
+  ID: ID!
+  IsCrewLead: Boolean
+  ModifiedBy: ID!
+  SORRecordDetailID: ID!
+  ScheduleOfRateID: ID!
+  StartTime: Time
+  createdBy: Person
+  crewMember: Person
+  modifiedBy: Person
+  scheduleOfRate: ScheduleOfRate
+  sorCrewMemberBreakDetails: [SORCrewMemberBreakDetail!]
+  sorRecordDetail: SORRecordDetail
+}
+
+input SORDailyCrewRecordDetailInput {
+  CrewMemberID: ID
+  FinishTime: Time!
+  StartTime: Time!
+  sorBreakDetailInputs: [SORBreakDetailInput!]!
+}
+
+input SORDailyCrewRecordInput {
+  SORRecordDetailID: ID!
+  sorDaiLyCrewRecordDetails: [SORDailyCrewRecordDetailInput!]!
+}
+
+input SORDateFilter {
+  FromDate: Date
+  ToDate: Date
+}
+
+input SORDetailInput {
+  ID: ID!
+  SORStatusInput: String!
+  payItemDetails: [SORPayItemDetailInput!]
+  remarks: [SORRemarkInput!]
+}
+
+input SORFilterObject {
+  CreatedByIds: [ID!]
+  EngineerIDs: [Float!]
+  ForemanIDs: [Float!]
+  InvoiceNo: String
+  SORDate: SORDateFilter
+  SORID: ID
+  SORPrimaryItemIDs: [Float!]
+  Status: [String!]
+  SubmittedDate: SORDateFilter
+  SupplierIDs: [ID!]
+  TotalSORQuantityRecordValue: TotalSORValueFilter
+  Warnings: [Int!]
+}
+
+type SORInvoice {
+  ActualInvoiceTotal: Float
+  CreatedBy: ID!
+  CreatedDate: DateTime
+  EnteredInvoiceTotal: Float
+  ID: ID!
+  InvoiceNumber: String!
+  ModifiedBy: ID!
+  SupplierPersonID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  sorInvoiceDetails: [SORInvoiceDetail!]!
+  supplierPerson: Person
+}
+
+type SORInvoiceDetail {
+  ID: ID!
+  SORID: ID!
+  SORInvoiceID: ID!
+  scheduleOfRate: ScheduleOfRate
+  sorInvoice: SORInvoice
+}
+
+type SORItem {
+  CreateSOR: Boolean!
+  CreatedDate: DateTime
+  ID: ID!
+  IsMinimumQuantity: Boolean
+  ItemCode: String!
+  ItemDescription: String!
+  MinimumQuantity: Float
+  ModifiedDate: DateTime
+  PackageIdentification: String
+  ProjectID: ID!
+  Rate: Float!
+  SORUnitID: ID!
+  SupplierAgreementID: ID
+  SupplierID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  project: Project
+  sorUnit: SORUnit
+  supplier: Supplier
+  supplierContractSetUp: SupplierContractSetUp
+}
+
+input SORItemFilterObject {
+  CreateSORs: [Int!]
+  ItemCodes: [String!]
+  ItemDescription: String
+  PackageIdentification: String
+  Rate: Float
+  SORUnitIDs: [ID!]
+  SupplierAgreementIDs: [ID!]
+  SupplierIDs: [ID!]
+}
+
+input SORItemInput {
+  CreateSOR: Boolean!
+  ID: ID
+  IsMinimumQuantity: Boolean
+  ItemCode: String!
+  ItemDescription: String!
+  MinimumQuantity: Float
+  PackageIdentification: String!
+  ProjectID: ID!
+  Rate: Float!
+  SORUnitID: ID!
+  SupplierAgreementID: ID!
+  SupplierID: ID!
+}
+
+type SORItemPaginatedResponse {
+  items: [SORItem!]!
+  pagination: PaginationResponse
+}
+
+type SORPaginatedResponse {
+  items: [ScheduleOfRate!]!
+  pagination: PaginationResponse
+}
+
+type SORPayItemApprovalDetail {
+  ActivityName: String!
+  AssetID: String
+  Comments: String
+  CostItem: String
+  CreatedDate: DateTime
+  DesignString: String
+  EndCH: String
+  Event: String
+  ID: ID!
+  QALot: String
+  SORApprovalDetailID: ID!
+  SORPayItemDetailID: ID!
+  StartCH: String
+  createdBy: Person
+  modifiedBy: Person
+  sorApprovalCostCodes: [SORApprovalCostCode!]
+  sorApprovalDetail: SORApprovalDetail
+  sorPayItemDetail: SORPayItemDetail
+}
+
+input SORPayItemApprovalDetailInput {
+  ActivityName: String
+  AssetID: ID
+  Comments: String
+  CostItem: String
+  DesignString: String
+  EndCH: String
+  Event: String
+  ID: ID
+  QALot: String
+  SORPayItemDetailID: ID
+  StartCH: String
+  sorApprovalCostCodeInputs: [SORApprovalCostCodeInput!]
+}
+
+type SORPayItemDetail {
+  Comments: String
+  CreatedDate: DateTime
+  ID: ID!
+  MinimumQuantity: Float
+  Quantity: Float
+  Rate: Float!
+  SORItemID: ID
+  SORLineTotal: Float!
+  SORUnitID: ID!
+  ScheduleOfRateID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  scheduleOfRate: ScheduleOfRate
+  sorItem: SORItem
+  sorPayItemApprovalDetail: SORPayItemApprovalDetail
+  sorPhotos: [SORPhoto!]
+  sorUnit: SORUnit
+}
+
+input SORPayItemDetailInput {
+  Comments: String
+  ID: ID
+  Quantity: Float!
+  SORItemID: ID!
+  photos: [SORPhotoInput!]
+}
+
+type SORPersonalSafetyChecklist {
+  CreatedBy: ID!
+  CreatedDate: DateTime
+  ID: ID!
+  ModifiedBy: ID!
+  SORRecordDetailID: ID!
+  SubmittedDate: DateTime!
+  createdBy: Person
+  modifiedBy: Person
+  sorPersonalSafetyChecklistItems: [SORPersonalSafetyChecklistItem!]
+  sorRecordDetail: SORRecordDetail
+}
+
+type SORPersonalSafetyChecklistItem {
+  Answer: Boolean!
+  Attachment: String
+  ID: ID!
+  Notes: String
+  PersonalSafetyQuestionID: ID!
+  SORPersonalSafetyChecklistID: ID!
+  personalSafetyQuestionList: PersonalSafetyQuestionList
+  sorPersonalSafetyChecklist: SORPersonalSafetyChecklist
+}
+
+input SORPersonalSafetyChecklistItemInput {
+  Answer: Boolean!
+  Attachment: String
+  Notes: String
+  PersonalSafetyQuestionID: ID!
+  SORPersonalSafetyChecklistID: ID!
+}
+
+type SORPhoto {
+  CreatedDate: DateTime
+  ID: ID!
+  PhotoPath: String!
+  Remark: String
+  SORPayItemDetailID: ID
+  ScheduleOfRateID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  scheduleOfRate: ScheduleOfRate
+  sorPayItemDetail: SORPayItemDetail
+}
+
+input SORPhotoAndRemarkInput {
+  ID: ID!
+  sorPhotoInputs: [SORPhotoInput!]!
+  sorRemarkInputs: [SORRemarkInput!]!
+}
+
+input SORPhotoInput {
+  ID: ID
+  PhotoPath: String!
+  Remark: String
+}
+
+type SORPlantSafetyChecklist {
+  CreatedBy: ID!
+  CreatedDate: DateTime
+  ID: ID!
+  ModifiedBy: ID!
+  PLantImage: String
+  SORRecordDetailID: ID!
+  SubmittedDate: DateTime!
+  createdBy: Person
+  modifiedBy: Person
+  sorPlantSafetyChecklistItems: [SORPlantSafetyChecklistItem!]
+  sorRecordDetail: SORRecordDetail
+}
+
+type SORPlantSafetyChecklistItem {
+  Answer: Boolean!
+  Attachment: String
+  ID: ID!
+  Notes: String
+  PlantSafetyQuestionID: ID!
+  SORPlantSafetyChecklistID: ID!
+  plantSafetyQuestionList: PlantSafetyQuestionList
+  sorPlantSafetyChecklist: SORPlantSafetyChecklist
+}
+
+input SORPlantSafetyChecklistItemInput {
+  Answer: Boolean!
+  Attachment: String
+  Notes: String
+  PlantSafetyQuestionID: ID!
+  SORPlantSafetyChecklistID: ID!
+}
+
+input SORPreStartDetailInput {
+  CrewMemberIDs: [ID!]!
+  EngineerID: ID!
+  ForemanID: ID!
+  ProjectID: ID!
+  ProjectLocationID: ID!
+  SORDate: Date!
+  SORItemIDs: [ID!]!
+}
+
+input SORReconciledInput {
+  EnteredInvoiceTotal: Float!
+  InvoiceNumber: String!
+  SORIDs: [ID!]!
+}
+
+type SORRecordDetail {
+  CreatedBy: Float
+  CreatedDate: DateTime!
+  DelegatePersonID: ID
+  ID: ID!
+  IsDelegate: Boolean
+  PersonID: ID!
+  RecordDate: DateTime!
+  RecordDateStatusID: ID!
+  ScheduleOfRateID: ID!
+  createdBy: Person
+  delegatePerson: Person
+  modifiedBy: Person
+  person: Person
+  scheduleOfRate: ScheduleOfRate
+  sorCrewMemberDetails: [SORCrewMemberDetail!]
+  sorPersonalSafetyChecklist: SORPersonalSafetyChecklist
+  sorPlantSafetyChecklist: SORPlantSafetyChecklist
+  sorStatus: SORStatus
+}
+
+type SORRecordDetailPaginatedResponse {
+  items: [SORRecordDetail!]!
+  pagination: PaginationResponse
+}
+
+type SORRemark {
+  CreatedDate: DateTime
+  ID: ID!
+  Remark: String!
+  RemarkBy: ID!
+  RemarkDate: Date!
+  RoleID: ID!
+  ScheduleOfRateID: ID!
+  createdBy: Person
+  modifiedBy: Person
+  remarkBy: Person
+  role: Role
+  scheduleOfRate: ScheduleOfRate
+}
+
+input SORRemarkInput {
+  ID: ID
+  Remark: String!
+}
+
+input SORSafetyChecklistInput {
+  PlantImage: String!
+  SORRecordDetailID: ID
+  ScheduleOfRateID: ID!
+  sorPersonalSafetyChecklistItemInputs: [SORPersonalSafetyChecklistItemInput!]!
+  sorPlantSafetyChecklistItemInputs: [SORPlantSafetyChecklistItemInput!]!
+  sorStartTimeForCrewMemberInput: SORStartTimeForCrewMemberInput!
+}
+
+input SORStartTimeForCrewMemberInput {
+  CrewMemberIDs: [ID!]!
+  StartTime: Time!
+}
+
+type SORStatus {
+  BriefStatus: String!
+  ID: ID!
+  NumberOfSOR: Int
+  Status: String!
+}
+
+type SORStatusHistory {
+  ApprovalStatus: String
+  CreatedDate: DateTime
+  ID: ID!
+  Information: String
+  RoleID: ID!
+  SORStatusID: ID!
+  ScheduleOfRateID: ID!
+  StatusBy: ID!
+  createdBy: Person
+  modifiedBy: Person
+  role: Role
+  scheduleOfRate: ScheduleOfRate
+  sorStatus: SORStatus
+  statusBy: Person
+}
+
+type SORStatusHistoryPaginatedResponse {
+  items: [SORStatusHistory!]!
+  pagination: PaginationResponse
+}
+
+input SORStructureInput {
+  ProjectID: ID!
+  SORApproverHierarchy: SORApproverHierarchyInput!
+}
+
+type SORUnit {
+  ID: ID!
+  Name: String!
+}
+
+input SORValueFilter {
+  Amount: Float
+  Operation: String
+}
+
+type ScheduleOfRate {
+  CreatedDate: DateTime
+  ID: ID!
+  IsCrewSOR: Boolean
+  IsMinimumQTYNotMet: Boolean
+  PersonID: ID!
+  ProjectID: ID!
+  ProjectLocationID: ID
+  SORDate: Date!
+  SORPrimaryItemID: ID
+  SORRecordNumber: String!
+  SORStatusID: ID!
+  SORTotal: Float
+  SORTotalEfforts: Float
+  SubmittedDate: DateTime
+  createdBy: Person
+  modifiedBy: Person
+  person: Person
+  project: Project
+  projectLocation: ProjectLocation
+  sorApprovalDetail: SORApprovalDetail
+  sorCrewMemberDetails: [SORCrewMemberDetail!]
+  sorInvoiceDetail: SORInvoiceDetail
+  sorPayItemDetails: [SORPayItemDetail!]!
+  sorPhotos: [SORPhoto!]
+  sorPrimaryItem: SORItem
+  sorRecordDetails: [SORRecordDetail!]
+  sorRemarks: [SORRemark!]
+  sorStatus: SORStatus
+  sorStatusHistories: [SORStatusHistory!]
+}
+
+input SendBackStatusDocketTypeInput {
+  Action: String!
+  ForemanID: ID
+  InvoiceNumber: String
+  PMManagerStatusReason: String!
+}
+
+type ShiftType {
+  ID: ID!
+  ShiftType: String!
+}
+
+type SiteEvent {
+  ClosedBy: ID
+  ClosedNotes: String
+  CreatedDate: DateTime
+  Description: String!
+  EventDate: Date!
+  EventTypeID: ID!
+  ID: ID!
+  ProjectID: ID!
+  Status: String!
+  closedByPerson: Person
+  createdByPerson: Person
+  eventType: EventType!
+  project: Project
+  siteEventPhoto: [SiteEventPhoto!]!
+}
+
+type SiteEventPhoto {
+  ID: ID!
+  PhotoData: String!
+  SiteEventID: ID!
+}
+
+input SiteEventPhotoInput {
+  ID: ID
+  PhotoData: String!
+}
+
+type SiteEventRequestPaginatedResponse {
+  items: [SiteEvent!]!
+  pagination: PaginationResponse
+}
+
+input SiteEventUpsertForMobileInput {
+  Description: String!
+  DocketID: ID!
+  EventTypeID: ID!
+  ID: ID
+  Latitude: Float
+  Longitude: Float
+  siteEventPhotoInput: [SiteEventPhotoInput!]!
+}
+
+input SiteEventUpsertInput {
+  ClosedNotes: String
+  Description: String!
+  EventDate: Date!
+  EventTypeID: ID!
+  ID: ID
+  ProjectID: ID!
+  Status: String!
+  siteEventPhotoInput: [SiteEventPhotoInput!]!
+}
+
+input Sorter {
+  field: String
+
+  """Default: asc"""
+  orderBy: String
+}
+
+type State {
+  ID: ID!
+  State: String!
+  country: Country
+}
+
+type SubbieRecordView {
+  Date: Date!
+  DelegatePersonID: String
+  ID: ID!
+  IsCrewDocket: Boolean
+  IsDelegate: Boolean
+  IsSORWarning: Boolean
+  IsWeighBridge: Boolean
+  Number: String!
+  PersonID: String!
+  SORItemCode: String
+  Status: String!
+  SubbieStatusID: ID
+  Type: ID!
+  docketDetail: DocketDetail
+  sorItems: [SORItem!]
+  sorRecordDetails: [SORRecordDetail!]
+  subbieStatus: DocketStatus
+}
+
+type SubbieRecordViewPaginationResponse {
+  items: [SubbieRecordView!]!
+  pagination: PaginationResponse
+}
+
+type SubcontractorDocketDefault {
+  CreatedDate: DateTime
+  DocketRateItemGroupID: ID
+  DocketRateItemID: ID
+  FinishTime: Time
+  ForemanID: ID
+  PersonID: ID
+  ProjectID: ID
+  StartTime: Time
+  docketRateItem: DocketRateItem
+  docketRateItemGroup: DocketRateItemGroup
+  foreman: Person
+  person: Person
+  project: Project
+}
+
+input SubcontractorDocketDefaultInput {
+  DocketRateItemGroupID: ID
+  DocketRateItemID: ID
+  FinishTime: Time
+  ForemanID: ID
+  ProjectID: ID
+  StartTime: Time
+}
+
+type Supplier {
+  ABN: String
+  Address1: String
+  Address2: String
+  Country: String
+  CreatedBy: ID
+  CreatedDate: DateTime
+  Email: String
+  Fax: String
+  ID: ID!
+  IsActive: Boolean
+  IsManualEdit: Boolean
+  ModifiedBy: ID
+  ModifiedDate: DateTime
+  Name: String
+  Phone: String
+  Postcode: String
+  Source: String
+  State: String
+  Suburb: String
+  SupplierCode: String!
+  projectSupplier: [ProjectSupplier!]
+}
+
+type SupplierContractAggrementType {
+  AggrementType: String!
+  ID: ID!
+  supplierContractSetUps: [SupplierContractSetUp!]
+}
+
+input SupplierContractFilterObject {
+  AggrementTypes: [String!]
+  ForExistingDocketRateItem: Boolean
+  ForExistingRequisitionRateItem: Boolean
+  ForExistingSORItem: Boolean
+  IsActive: Boolean
+  SupplierIDs: [ID!]
+  WorkflowTypes: [String!]
+}
+
+type SupplierContractSetUp {
+  AggrementNumber: String!
+  ID: ID!
+  IsActive: Boolean!
+  ProjectID: ID
+  SupplierID: ID!
+  WorkflowType: String
+  createdBy: Person
+  docketRateItemGroups: [DocketRateItemGroup!]
+  docketRateItems: [DocketRateItem!]
+  project: Project
+  requisitionRateItemGroups: [RequisitionRateItemGroup!]
+  requisitionRateItems: [RequisitionRateItem!]
+  sorItems: [SORItem!]
+  supplier: Supplier
+  supplierContractAggrementTypes: [SupplierContractAggrementType!]
+}
+
+input SupplierContractSetUpInput {
+  AggrementNumber: String!
+  ID: ID
+  IsActive: Boolean!
+  ProjectID: ID!
+  SupplierID: ID!
+  WorkflowType: String
+  aggrementTypeInputs: [AggrementTypeInput!]!
+}
+
+type SupplierContractSetUpPaginationResponse {
+  items: [SupplierContractSetUp!]!
+  pagination: PaginationResponse
+}
+
+type SupplierPaginatedResponse {
+  items: [Supplier!]!
+  pagination: PaginationResponse
+}
+
+type SupplierSummary {
+  SupplierCode: String
+  SupplierName: String
+}
+
+type SystemConfigInterface {
+  DefaultValue: String!
+  SettingName: String!
+  SettingValue: String
+}
+
+type SystemConfiguration {
+  ID: ID!
+  IsActive: Boolean!
+  SettingName: String!
+  SettingValue: String!
+}
+
+input SystemConfigurationInput {
+  ID: ID
+  IsActive: Boolean!
+  SettingValue: String!
+}
+
+type TeamStaff {
+  AutomaticSync: Boolean
+  CreatedDate: DateTime
+  ID: ID!
+  ManagerPersonID: ID!
+  TeamMemberPersonID: ID!
+  managerPerson: Person!
+  teamMemberPerson: Person!
+}
+
+"""
+A time string at UTC, such as 10:15:30Z, compliant with the `full-time` format outlined in section 5.6 of the RFC 3339profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Time
+
+type Timesheet {
+  AdjustmentID: ID
+  BankSunday: Boolean
+  CreatedBy: Float
+  CreatedDate: DateTime
+  EndTime: Time!
+  EntryType: String
+  HigherDutiesSubClassificationID: ID
+  ID: ID!
+  LAHATypeID: ID
+  LunchBreak: Float!
+  LunchStart: Time
+  ModifiedBy: Float
+  ModifiedDate: DateTime
+  PWB: Boolean
+  PWBMinutes: Float
+  PayrollNote: String
+  ProjectCostCentreID: ID
+  ProjectID: ID!
+  ProjectLocationID: ID
+  ShiftType: ID
+  StartTime: Time!
+  TakeSunday: Boolean
+  TimesheetAllowanceTypeID: ID
+  TimesheetLeaveTypeID: ID
+  TunnelTravelID: ID
+  UnagreedEarlyStart: Boolean
+  WashTime: Float
+  WorkDate: Date!
+  WorkGroupID: ID
+  WorksDescription: String
+  higherDutiesSubClassification: PayrollSubClassification
+  lahaType: LAHAType
+  modifiedPerson: Person
+  person: Person
+  project: Project
+  projectCostCentre: ProjectCostCentre
+  projectLocation: ProjectLocation
+  shiftType: ShiftType
+  timesheetAdjustment: TimesheetAdjustment
+  timesheetAllowanceType: TimesheetAllowanceType
+  timesheetLeaveType: TimesheetLeaveType
+  tunnelTravel: TimesheetTunnelTravel
+  workGroup: WorkGroup
+}
+
+type TimesheetAdjustment {
+  CreatedBy: ID!
+  CreatedDate: DateTime
+  ID: ID!
+  KronosPayrollDate: Date
+  ModifiedBy: ID!
+  PersonID: ID!
+  ReadyForPayroll: Boolean!
+  Reason: String!
+  SentToPayroll: Boolean!
+  WorkDate: Date!
+  createdBy: Person
+  modifiedBy: Person
+  person: Person
+  preAdjustmentTimesheets: [PreAdjustmentTimesheet!]
+  timesheets: [Timesheet!]
+}
+
+type TimesheetAllowanceType {
+  AllowanceCode: String!
+  Description: String!
+  ID: ID!
+}
+
+input TimesheetInput {
+  AdjustmentID: ID
+  EndTime: Time
+  EntryType: String
+  ID: ID
+  LAHATypeID: ID
+  LunchBreak: Float!
+  PWB: Boolean
+  PWBMinutes: Float = 0
+  PayrollNote: String
+  ProjectCostCentreID: ID
+  ProjectID: ID!
+  ProjectLocationID: ID
+  StartTime: Time
+  TimesheetAllowanceTypeID: ID
+  TimesheetLeaveTypeID: ID
+  WorkGroupID: ID
+  WorksDescription: String
+}
+
+type TimesheetLeaveType {
+  AdditionalFieldDisplayed: Boolean!
+  AdditionalFieldLabel: String
+  AdditionalFieldMandatory: Boolean!
+  AllowLeaveApplication: Boolean
+  AttachmentRequired: Boolean!
+  Description: String!
+  ID: ID!
+  LeaveCode: String!
+  PriorKnowledgeRequired: Boolean!
+  projectExternalTimesheetLeaveType: [ProjectExternalTimesheetLeaveType!]
+}
+
+type TimesheetSummary {
+  CostCode: String
+  CostCodeDetail: String
+  CostCodeID: Float
+  EndTime: Time!
+  EntryType: String
+  ID: ID!
+  Laha: String
+  Location: String
+  LunchBreak: Float!
+  ModifiedBy: Float
+  ModifiedDate: DateTime
+  PWBMinutes: Float
+  PayrollNote: String
+  ProjectID: ID!
+  ProjectName: String!
+  ProjectNo: String
+  StartTime: Time!
+  TimesheetAllowanceType: String
+  TimesheetLeaveType: String
+  WorkDate: Date!
+  WorkDescription: String
+  modifiedPerson: Person
+  person: Person
+}
+
+type TimesheetTunnelTravel {
+  Code: Float!
+  Description: String!
+  ID: ID!
+}
+
+input TotalDocketValueFilter {
+  DocketValueFilter: DocketValueFilter
+}
+
+input TotalRequisitionValueFilter {
+  Amount: Float
+  Operation: String
+}
+
+input TotalSORValueFilter {
+  SORValueFilter: SORValueFilter
+}
+
+type TravelAllowanceType {
+  ID: ID!
+  IsActive: Boolean!
+  TravelAllowanceType: String!
+}
+
+input UpdateExternalPersonInfoInput {
+  Email: String!
+  ID: ID!
+  Phone: String
+  SupplierID: ID!
+}
+
+input UpdateTimesheetInput {
+  WorkDate: Date!
+  timesheet: TimesheetInput!
+}
+
+type UserActivity {
+  AppVersion: String!
+  CreatedDate: DateTime
+  DeviceToken: String!
+  DeviceType: String!
+  ID: ID!
+  PersonID: Float!
+  SourceApp: String
+  UserActivityStatus: String!
+  person: Person!
+}
+
+input UserActivityCreateInput {
+  AppVersion: String!
+  DeviceToken: String!
+  DeviceType: String!
+  ID: ID
+  SourceApp: String!
+  UserActivityStatus: String!
+}
+
+type UserCompanyAccess {
+  CompanyID: ID!
+  ID: ID!
+  PersonID: ID!
+  RoleID: ID
+  company: Company
+  person: Person
+  roleCompany: Role
+}
+
+input UserCompanyAccessCreateInput {
+  CompanyID: [ID!]!
+  PersonID: ID!
+}
+
+type UserMapAccess {
+  ID: ID!
+  IsActive: Boolean!
+  PersonID: ID!
+  ProjectID: ID!
+  RoleID: ID!
+  person: Person
+  project: Project
+  role: Role
+}
+
+input UserPrivacyInput {
+  PrivacyConfigurationID: ID!
+  Status: String!
+}
+
+type UserProjectAccess {
+  ID: ID!
+  PersonID: ID!
+  ProjectID: ID!
+  RoleID: ID
+  person: Person
+  project: Project
+  roleProject: Role
+}
+
+input UserProjectAccessCreateInput {
+  PersonID: ID!
+  ProjectID: [ID!]!
+}
+
+type UserRequisitionAccess {
+  CreatedBy: Float
+  CreatedDate: DateTime
+  ID: ID!
+  ModifiedBy: Float
+  ModifiedDate: DateTime
+  PersonID: ID!
+  ProjectCostCentreID: ID
+  RequisitionApprovalAmountID: ID!
+  RoleID: ID
+  person: Person
+  projectCostCentre: ProjectCostCentre
+  requisitionApprovalAmount: RequisitionApprovalAmount
+  roleRequisition: Role
+}
+
+type UserTimesheetDefault {
+  FinishTime: Time
+  LunchBreak: Float
+  PayFrequency: String
+  PayStartDay: String
+  PersonID: ID
+  StartTime: Time
+  project: Project
+  projectCostCentre: ProjectCostCentre
+}
+
+input UserTimesheetDefaultInput {
+  FinishTime: Time
+  LunchBreak: Float
+  PayFrequency: String
+  PayStartDay: String
+  ProjectCostCentreID: ID
+  ProjectID: ID
+  StartTime: Time
+}
+
+input UserUpdateActivityInput {
+  DeviceToken: String!
+  ID: ID
+  UserActivityStatus: String!
+}
+
+type WeighBridgeBreakSetting {
+  CreatedDate: DateTime!
+  ID: ID!
+  IsRoundDownRestBreak: Boolean!
+  MaximumWorkingHours: Float!
+  ProjectID: ID!
+  SettingType: String!
+  project: Project
+  weighbridgeBreakSettingDetails: [WeighbridgeBreakSettingDetail!]
+}
+
+input WeighBridgeBreakSettingDetailInput {
+  RestHours: Float!
+  TotalHours: Float!
+}
+
+input WeighBridgeBreakSettingInput {
+  ID: ID
+  IsRoundDownRestBreak: Boolean!
+  MaximumWorkingHours: Float!
+  ProjectID: ID!
+  SettingType: String!
+  settingDetails: [WeighBridgeBreakSettingDetailInput!]!
+}
+
+input WeighBridgeDumpInput {
+  DocketID: ID!
+  Duration: Int
+  EndTime: Time!
+  IsWithGPS: Boolean!
+  Latitude: Float
+  Longitude: Float
+  ReceiptNumber: String
+  ReceiptPhoto: String
+}
+
+input WeighBridgePersonalChecklistPreStartInput {
+  DocketDate: Date!
+  DocketID: ID
+  IsForceStop: Boolean!
+  ProjectID: ID!
+  personalSafetyChecklistItemInputs: [PersonalSafetyChecklistItemInput!]!
+}
+
+input WeighBridgePlantChecklistPreStartInput {
+  DocketDetailID: ID!
+  IsForceStop: Boolean!
+  location: Location
+  plantSafetyChecklistItemInputs: [PlantSafetyChecklistItemInput!]
+}
+
+input WeighBridgeStartTimePreStartInput {
+  CurrentTime: Time
+  DocketDetailID: ID!
+  ProjectLocationID: ID!
+  StartTime: Time!
+}
+
+type WeighbridgeBreakSettingDefault {
+  SettingType: String!
+  weighbridgeBreakSettingDefaultDetails: [WeighbridgeBreakSettingDefaultDetail!]!
+}
+
+type WeighbridgeBreakSettingDefaultDetail {
+  RestHours: Float!
+  TotalHours: Float!
+  WorkHours: Float!
+}
+
+type WeighbridgeBreakSettingDetail {
+  ID: ID!
+  RestHours: Float!
+  TotalHours: Float!
+  WeighbridgeBreakSettingID: ID!
+  WorkHours: Float!
+  weighbridgeBreakSetting: WeighBridgeBreakSetting
+}
+
+type WorkGroup {
+  CreatedDate: DateTime
+  Description: String
+  ID: ID!
+  Name: String!
+  supervisor: Person
+}
+
+type WorkerType {
+  Description: String
+  ID: ID!
+  IsActive: String
+}
